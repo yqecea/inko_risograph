@@ -185,6 +185,9 @@ const App: React.FC = () => {
                          <a 
                            key={social} 
                            href="#" 
+                           aria-label={`${social} (coming soon)`}
+                           aria-disabled="true"
+                           role="link"
                            className="px-4 py-2 border-2 border-riso-ink text-[10px] font-black uppercase tracking-widest hover:bg-riso-ink hover:text-white transition-all"
                          >
                            {social}
@@ -196,22 +199,26 @@ const App: React.FC = () => {
                  {/* Navigation Clusters */}
                  <div className="md:col-span-2 space-y-10">
                     <h4 className="text-[10px] uppercase font-black tracking-[0.4em] text-riso-blue">Inquiry</h4>
-                    <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">The Engine</a></li>
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">Manifesto</a></li>
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">Journal</a></li>
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">Licensing</a></li>
-                    </ul>
+                    <nav aria-label="Footer">
+                       <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">The Engine</a></li>
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Manifesto</a></li>
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Journal</a></li>
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Licensing</a></li>
+                       </ul>
+                    </nav>
                  </div>
 
                  <div className="md:col-span-2 space-y-10">
                     <h4 className="text-[10px] uppercase font-black tracking-[0.4em] text-riso-pink">Legal</h4>
-                    <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">Privacy</a></li>
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">Terms</a></li>
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">GDPR</a></li>
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">Cookies</a></li>
-                    </ul>
+                    <nav aria-label="Footer">
+                       <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Privacy</a></li>
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Terms</a></li>
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">GDPR</a></li>
+                          <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Cookies</a></li>
+                       </ul>
+                    </nav>
                  </div>
 
                  {/* High-Fidelity Address/Contact */}

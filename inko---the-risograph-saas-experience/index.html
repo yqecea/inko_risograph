@@ -5,7 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INKO | The Risograph SaaS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://esm.sh 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://picsum.photos https://fastly.picsum.photos data:; connect-src 'self';">
+    <meta name="description" content="INKO — The risograph-inspired SaaS experience. Beautiful, textured, print-aesthetic design tools for the modern web.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="INKO — The Risograph SaaS Experience">
+    <meta property="og:description" content="Beautiful, textured, print-aesthetic design tools for the modern web.">
+    <meta property="og:image" content="/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="INKO — The Risograph SaaS Experience">
+    <meta name="twitter:description" content="Beautiful, textured, print-aesthetic design tools for the modern web.">
+    <link rel="canonical" href="https://inko.design">
+    <script src="https://cdn.tailwindcss.com/3.4.17" crossorigin="anonymous"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              riso: {
+                paper: 'var(--riso-paper)',
+                ink: 'var(--riso-ink)',
+                pink: 'var(--riso-pink)',
+                blue: 'var(--riso-blue)',
+                yellow: 'var(--riso-yellow)',
+                green: 'var(--riso-green)',
+              }
+            }
+          }
+        }
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,7 +52,6 @@
             color: var(--riso-ink);
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
-            cursor: crosshair;
         }
 
         .font-serif { font-family: 'Instrument Serif', serif; }
@@ -121,6 +148,15 @@
             -webkit-text-stroke: 1px rgba(244, 241, 234, 0.3);
             color: transparent;
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
     </style>
 <script type="importmap">
 {
@@ -131,28 +167,11 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+
 </head>
 <body>
     <!-- Global SVG Filters for Risograph Effects -->
     <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
-        <filter id="riso-grain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-            <feColorMatrix type="saturate" values="0" />
-            <feComponentTransfer>
-                <feFuncR type="linear" slope="0.3" />
-                <feFuncG type="linear" slope="0.3" />
-                <feFuncB type="linear" slope="0.3" />
-            </feComponentTransfer>
-            <feBlend in="SourceGraphic" mode="multiply" />
-        </filter>
-        
-        <filter id="riso-blur-grain">
-            <feGaussianBlur stdDeviation="1.5" />
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" />
-            <feBlend mode="multiply" />
-        </filter>
-
         <pattern id="halftone" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
             <circle cx="2" cy="2" r="1.5" fill="currentColor" />
         </pattern>

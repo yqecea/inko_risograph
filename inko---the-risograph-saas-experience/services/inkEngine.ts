@@ -22,7 +22,6 @@ export class InkEngine {
   };
 
   private constructor() {
-    console.log("INKO Engine Initialized: Loading Master Plates...");
   }
 
   public static getInstance(): InkEngine {
@@ -53,7 +52,6 @@ export class InkEngine {
     return new Promise((resolve) => {
       const processingTime = (this.state.dryTime / this.state.layers) * 1000;
       setTimeout(() => {
-        console.log(`Layer ${layerIndex + 1} finalized: ${this.getPassName(layerIndex)}`);
         resolve();
       }, processingTime);
     });
@@ -77,9 +75,6 @@ export class InkEngine {
   public optimizePerformance(fps: number): void {
     if (fps < 45) {
       this.state.viscosity *= 0.9;
-      console.warn("Reducing ink viscosity for performance stability.");
     }
   }
 }
-
-export const inkEngine = InkEngine.getInstance();

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ColorPalette, FeatureItem, PricingPlan, NavigationLink, Testimonial } from './types';
+import { ColorPalette, FeatureItem, PricingPlan, NavigationLink } from './types';
 
 export const NAV_LINKS: NavigationLink[] = [
   { label: 'The Product', href: '#features' },
@@ -60,23 +60,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     features: ['Enterprise scale', 'White-label printing', 'API direct-to-plate', 'Dedicated account curator'],
     color: ColorPalette.GREEN,
   },
-];
-
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    author: 'Elena Rossi',
-    role: 'Design Principal',
-    company: 'Velo Studio',
-    text: "INKO isn't just a SaaS; it's a sensory experience. It brings back the grit and soul that digital interfaces have lost over the last decade.",
-    image: 'https://picsum.photos/seed/elena/200/200',
-  },
-  {
-    author: 'Marcus Thorne',
-    role: 'CTO',
-    company: 'Grain & Co',
-    text: "The way they handle data layering using multiply blend modes is technically fascinating and visually arresting. A masterpiece of engineering.",
-    image: 'https://picsum.photos/seed/marcus/200/200',
-  }
 ];
 
 export const HalftonePattern = ({ id, color, scale = 1 }: { id: string, color: string, scale?: number }) => (
