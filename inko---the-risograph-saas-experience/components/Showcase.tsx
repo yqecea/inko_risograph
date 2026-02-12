@@ -49,6 +49,8 @@ const Showcase: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [hoveredSlide, setHoveredSlide] = useState<number | null>(null);
+  const [scrollHintVisible, setScrollHintVisible] = useState(true);
+  const activeSlideRef = useRef(activeSlide);
 
   // Entrance animation via IntersectionObserver
   useEffect(() => {
@@ -86,13 +88,51 @@ const Showcase: React.FC = () => {
     };
   }, []);
 
+  // Sync ref for wheel handler closure
+  useEffect(() => { activeSlideRef.current = activeSlide; }, [activeSlide]);
+
+  useEffect(() => {
+    if (activeSlide > 0) setScrollHintVisible(false);
+  }, [activeSlide]);
+
   const scrollToSlide = (index: number) => {
     const container = scrollContainerRef.current;
     if (!container) return;
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    const target = (index / (SLIDES.length - 1)) * maxScroll;
-    container.scrollTo({ left: target, behavior: 'smooth' });
+    const slide = container.children[index] as HTMLElement | undefined;
+    if (slide) slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
   };
+
+  // Wheel → slide navigation (scroll hijack)
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let lastWheelTime = 0;
+    const COOLDOWN = 600;
+
+    const handleWheel = (e: WheelEvent) => {
+      const rect = section.getBoundingClientRect();
+      const sectionVisible = rect.top < window.innerHeight * 0.5 && rect.bottom > window.innerHeight * 0.3;
+      if (!sectionVisible) return;
+
+      const current = activeSlideRef.current;
+      const isForward = e.deltaY > 0;
+
+      // At boundaries — let page scroll naturally
+      if ((isForward && current >= SLIDES.length - 1) || (!isForward && current <= 0)) return;
+
+      e.preventDefault();
+
+      const now = Date.now();
+      if (now - lastWheelTime < COOLDOWN) return;
+      lastWheelTime = now;
+
+      scrollToSlide(isForward ? current + 1 : current - 1);
+    };
+
+    section.addEventListener('wheel', handleWheel, { passive: false });
+    return () => section.removeEventListener('wheel', handleWheel);
+  }, []);
 
   return (
     <section
@@ -126,35 +166,57 @@ const Showcase: React.FC = () => {
             </h2>
           </div>
 
-          {/* Slide indicators — desktop only */}
-          <div className="hidden lg:flex items-center gap-3 pb-2">
-            {SLIDES.map((slide, i) => (
-              <button
-                key={slide.num}
-                onClick={() => scrollToSlide(i)}
-                className="relative h-1 bg-white/20 overflow-hidden cursor-pointer transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                style={{ width: activeSlide === i ? '4rem' : '2rem' }}
-                aria-label={`Go to slide ${i + 1}`}
-              >
-                <div
-                  className="absolute inset-0 transition-transform duration-500"
-                  style={{
-                    backgroundColor: slide.hex,
-                    transform: activeSlide === i ? 'scaleX(1)' : 'scaleX(0)',
-                    transformOrigin: 'left',
-                  }}
-                />
-              </button>
-            ))}
+          {/* Slide indicators + arrow buttons — desktop only */}
+          <div className="hidden lg:flex items-center gap-4 pb-2">
+            <button
+              onClick={() => scrollToSlide(Math.max(0, activeSlide - 1))}
+              disabled={activeSlide === 0}
+              className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              aria-label="Previous slide"
+            >
+              ←
+            </button>
+            <div className="flex items-center gap-3">
+              {SLIDES.map((slide, i) => (
+                <button
+                  key={slide.num}
+                  onClick={() => scrollToSlide(i)}
+                  className="relative h-1 bg-white/20 overflow-hidden cursor-pointer transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  style={{ width: activeSlide === i ? '4rem' : '2rem' }}
+                  aria-label={`Go to slide ${i + 1}`}
+                >
+                  <div
+                    className="absolute inset-0 transition-transform duration-500"
+                    style={{
+                      backgroundColor: slide.hex,
+                      transform: activeSlide === i ? 'scaleX(1)' : 'scaleX(0)',
+                      transformOrigin: 'left',
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => scrollToSlide(Math.min(SLIDES.length - 1, activeSlide + 1))}
+              disabled={activeSlide === SLIDES.length - 1}
+              className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              aria-label="Next slide"
+            >
+              →
+            </button>
+            <span className="text-xs font-mono text-white/40 ml-2">
+              {String(activeSlide + 1).padStart(2, '0')}/{String(SLIDES.length).padStart(2, '0')}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Horizontal Scroll Area */}
-      <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto space-x-6 md:space-x-12 px-6 pb-20 no-scrollbar snap-x snap-mandatory"
-      >
+      <div className="relative">
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto space-x-6 md:space-x-12 px-6 pb-20 no-scrollbar snap-x snap-mandatory"
+        >
         {SLIDES.map((slide, i) => (
           <div
             key={slide.num}
@@ -236,7 +298,8 @@ const Showcase: React.FC = () => {
                     className="absolute inset-0 mix-blend-multiply opacity-0 group-hover:opacity-30 transition-opacity duration-500 z-20"
                     style={{ backgroundColor: slide.hex }}
                   />
-                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50 z-20">
+                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/70 to-transparent z-20" />
+                  <div className="absolute bottom-4 left-4 text-[10px] font-mono text-white/90 z-30 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                     {slide.filename}
                   </div>
                 </div>
@@ -244,6 +307,16 @@ const Showcase: React.FC = () => {
             </div>
           </div>
         ))}
+        </div>
+
+        {scrollHintVisible && (
+          <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-2 pointer-events-none animate-[bounceRight_1.5s_ease-in-out_infinite]">
+            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/50 [writing-mode:vertical-lr]">
+              Scroll
+            </span>
+            <span className="text-white/50 text-lg">→</span>
+          </div>
+        )}
       </div>
 
       {/* Scroll progress bar — desktop only */}
@@ -280,6 +353,10 @@ const Showcase: React.FC = () => {
         @keyframes shimmer {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
+        }
+        @keyframes bounceRight {
+          0%, 100% { transform: translateX(0) translateY(-50%); }
+          50% { transform: translateX(6px) translateY(-50%); }
         }
         .showcase-slide:hover {
           will-change: transform, opacity;
