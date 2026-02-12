@@ -27,6 +27,45 @@ const Navbar: React.FC = () => {
     };
   }, [mobileMenuOpen]);
 
+  // Focus trap for mobile menu
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    
+    const menuOverlay = document.querySelector('[data-mobile-menu]') as HTMLElement;
+    if (!menuOverlay) return;
+    
+    const focusableElements = menuOverlay.querySelectorAll<HTMLElement>(
+      'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable?.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable?.focus();
+        }
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+    firstFocusable?.focus();
+    
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
   return (
     <>
       <nav 
@@ -73,6 +112,7 @@ const Navbar: React.FC = () => {
             className="md:hidden relative z-[110] w-10 h-10 flex flex-col justify-center items-center gap-1.5 group"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
           >
             <span className={`w-8 h-0.5 bg-[#1a1a1a] transition-all duration-300 origin-center ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
             <span className={`w-8 h-0.5 bg-[#1a1a1a] transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
@@ -83,6 +123,10 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       <div 
+        data-mobile-menu
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
         className={`fixed inset-0 z-[105] bg-[#f4f1ea] flex flex-col justify-center items-center transition-all duration-500 ${
           mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}

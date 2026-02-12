@@ -19,6 +19,7 @@ import { ColorPalette } from './types';
 const App: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const lastScrollY = useRef(0);
+  const mainRef = useRef<HTMLElement>(null);
 
   // Initialize engine state and handle global narrative transitions
   useEffect(() => {
@@ -31,8 +32,8 @@ const App: React.FC = () => {
 
       // Update global CSS tokens for scroll-reactive elements
       const scrollPercentage = (currentScrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      document.documentElement.style.setProperty('--scroll-progress', `${scrollPercentage}%`);
-      document.documentElement.style.setProperty('--scroll-y', `${currentScrollY}px`);
+      mainRef.current?.style.setProperty('--scroll-progress', `${scrollPercentage}%`);
+      mainRef.current?.style.setProperty('--scroll-y', `${currentScrollY}px`);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -41,6 +42,8 @@ const App: React.FC = () => {
 
   return (
     <main 
+      id="main-content"
+      ref={mainRef}
       className={`relative min-h-screen selection:bg-riso-pink selection:text-white overflow-x-hidden bg-riso-paper transition-opacity duration-1000 ${
         isLoaded ? 'opacity-100' : 'opacity-0'
       }`}
@@ -140,7 +143,7 @@ const App: React.FC = () => {
               <div className="max-w-6xl mx-auto text-center space-y-16">
                  <div className="space-y-6">
                     <span className="text-xs uppercase tracking-[0.8em] font-black text-riso-yellow">05 / The Conclusion</span>
-                    <h2 className="text-5xl md:text-[10rem] font-syne font-black uppercase leading-[0.85] tracking-tighter">
+                    <h2 className="text-5xl font-syne font-black uppercase leading-[0.85] tracking-tighter" style={{ fontSize: 'clamp(3rem, 9vw, 10rem)' }}>
                       Ready to <br /> <span className="text-riso-pink">Reclaim</span> <br /> the Soul?
                     </h2>
                  </div>
@@ -167,7 +170,7 @@ const App: React.FC = () => {
         </section>
 
         {/* SECTION 8: Global Infrastructure (Footer) */}
-        <footer className="bg-white text-riso-ink pt-32 pb-16 relative border-t-8 border-riso-ink">
+        <footer role="contentinfo" className="bg-white text-riso-ink pt-32 pb-16 relative border-t-8 border-riso-ink">
            <div className="container mx-auto px-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-32">
                  
@@ -182,14 +185,15 @@ const App: React.FC = () => {
                     </p>
                     <div className="flex space-x-4">
                        {['TWITTER', 'INSTAGRAM', 'LINKEDIN', 'ARE.NA'].map(social => (
-                         <a 
+                         <span 
                            key={social} 
-                           href="#" 
+                           role="link" 
                            aria-disabled="true"
-                           className="px-4 py-2 border-2 border-riso-ink text-[10px] font-black uppercase tracking-widest hover:bg-riso-ink hover:text-white transition-all"
+                           tabIndex={-1}
+                           className="px-4 py-2 border-2 border-riso-ink text-[10px] font-black uppercase tracking-widest transition-all cursor-default opacity-60"
                          >
                            {social}
-                         </a>
+                         </span>
                        ))}
                     </div>
                  </div>
@@ -198,20 +202,20 @@ const App: React.FC = () => {
                  <nav aria-label="Footer navigation" className="md:col-span-2 space-y-10">
                     <h4 className="text-[10px] uppercase font-black tracking-[0.4em] text-riso-blue">Inquiry</h4>
                     <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">The Engine</a></li>
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Manifesto</a></li>
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Journal</a></li>
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Licensing</a></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">The Engine</span></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">Manifesto</span></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">Journal</span></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">Licensing</span></li>
                     </ul>
                  </nav>
 
                  <nav aria-label="Legal navigation" className="md:col-span-2 space-y-10">
                     <h4 className="text-[10px] uppercase font-black tracking-[0.4em] text-riso-pink">Legal</h4>
                     <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Privacy</a></li>
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Terms</a></li>
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">GDPR</a></li>
-                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Cookies</a></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">Privacy</span></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">Terms</span></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">GDPR</span></li>
+                       <li><span role="link" aria-disabled="true" tabIndex={-1} className="transition-colors cursor-default opacity-60">Cookies</span></li>
                     </ul>
                  </nav>
 
