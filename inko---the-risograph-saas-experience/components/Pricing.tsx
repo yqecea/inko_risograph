@@ -72,7 +72,7 @@ const Pricing: React.FC = () => {
           <p className="text-gray-400 font-serif italic text-lg mb-8">
             "Questions about our proprietary ink-delivery methods?"
           </p>
-          <a href="#" className="inline-block text-riso-blue font-syne text-sm uppercase tracking-widest font-bold border-b-4 border-riso-blue pb-2 hover:text-[#f4f1ea] transition-colors">
+          <a href="#journal" className="inline-block text-riso-blue font-syne text-sm uppercase tracking-widest font-bold border-b-4 border-riso-blue pb-2 hover:text-[#f4f1ea] transition-colors">
             Consult the Archivist →
           </a>
         </div>

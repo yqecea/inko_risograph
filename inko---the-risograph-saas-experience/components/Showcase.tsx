@@ -99,7 +99,9 @@ const Showcase: React.FC = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
     const slide = container.children[index] as HTMLElement | undefined;
-    if (slide) slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    if (slide) {
+      container.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+    }
   };
 
   // Wheel → slide navigation (scroll hijack)
@@ -108,7 +110,7 @@ const Showcase: React.FC = () => {
     if (!section) return;
 
     let lastWheelTime = 0;
-    const COOLDOWN = 600;
+    const COOLDOWN = 350;
 
     const handleWheel = (e: WheelEvent) => {
       const rect = section.getBoundingClientRect();
@@ -121,10 +123,10 @@ const Showcase: React.FC = () => {
       // At boundaries — let page scroll naturally
       if ((isForward && current >= SLIDES.length - 1) || (!isForward && current <= 0)) return;
 
-      e.preventDefault();
-
       const now = Date.now();
-      if (now - lastWheelTime < COOLDOWN) return;
+      if (now - lastWheelTime < COOLDOWN) return; // let page scroll during cooldown
+
+      e.preventDefault();
       lastWheelTime = now;
 
       scrollToSlide(isForward ? current + 1 : current - 1);
@@ -220,7 +222,7 @@ const Showcase: React.FC = () => {
         {SLIDES.map((slide, i) => (
           <div
             key={slide.num}
-            className="showcase-slide flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start"
+            className="showcase-slide flex-shrink-0 w-[85vw] md:w-[75vw] max-w-4xl relative group snap-start"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(60px) scale(0.95)',
@@ -310,7 +312,7 @@ const Showcase: React.FC = () => {
         </div>
 
         {scrollHintVisible && (
-          <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-2 pointer-events-none animate-[bounceRight_1.5s_ease-in-out_infinite]">
+          <div className="absolute right-8 top-1/2 hidden lg:flex flex-col items-center gap-2 pointer-events-none animate-[bounceRight_1.5s_ease-in-out_infinite]">
             <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/50 [writing-mode:vertical-lr]">
               Scroll
             </span>

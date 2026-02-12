@@ -25,7 +25,6 @@ const ShowcaseSectionExtended: React.FC = () => {
     pressure: 0.8,
   });
 
-  const [scrolledAmount, setScrolledAmount] = useState(0);
   const [hasEntered, setHasEntered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -51,19 +50,28 @@ const ShowcaseSectionExtended: React.FC = () => {
   useEffect(() => {
     if (!printState.isActive) return;
 
-    const interval = setInterval(() => {
-      setPrintState((prev) => {
-        if (prev.progress >= 100) {
-          // Switch color and restart
-          const colors = [ColorPalette.PINK, ColorPalette.BLUE, ColorPalette.YELLOW];
-          const nextIndex = (colors.indexOf(prev.currentInk) + 1) % colors.length;
-          return { ...prev, progress: 0, currentInk: colors[nextIndex] };
-        }
-        return { ...prev, progress: prev.progress + 0.5 };
-      });
-    }, 16);
+    let rafId: number;
+    let lastTime = performance.now();
 
-    return () => clearInterval(interval);
+    const step = (now: number) => {
+      const elapsed = now - lastTime;
+      if (elapsed >= 16) {
+        lastTime = now;
+        setPrintState((prev) => {
+          if (prev.progress >= 100) {
+            // Switch color and restart
+            const colors = [ColorPalette.PINK, ColorPalette.BLUE, ColorPalette.YELLOW];
+            const nextIndex = (colors.indexOf(prev.currentInk) + 1) % colors.length;
+            return { ...prev, progress: 0, currentInk: colors[nextIndex] };
+          }
+          return { ...prev, progress: prev.progress + 0.5 };
+        });
+      }
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
   }, [printState.isActive]);
 
   return (

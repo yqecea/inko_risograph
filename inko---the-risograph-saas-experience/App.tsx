@@ -131,8 +131,77 @@ const App: React.FC = () => {
         
         {/* SECTION 6: Commercial Engagement */}
         <Pricing />
+
+        {/* SECTION 7: The Journal */}
+        <section id="journal" className="py-32 bg-[#f4f1ea] relative overflow-hidden text-[#1a1a1a]">
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 left-1/4 w-px h-full bg-[#1a1a1a] opacity-10"></div>
+          <div className="absolute top-0 right-1/4 w-px h-full bg-[#1a1a1a] opacity-10"></div>
+          
+          <div className="container mx-auto px-6 relative z-10">
+            {/* Section Header */}
+            <div className="mb-24 flex flex-col items-center text-center">
+               <span className="text-[10px] uppercase tracking-[0.4em] font-black text-[#1a1a1a] mb-4">05 / THE JOURNAL</span>
+               <h2 className="text-6xl md:text-8xl font-syne font-black uppercase leading-[0.85] tracking-tighter">
+                 Thoughts <br /> <span className="text-[#ff33cc] italic font-serif text-5xl md:text-7xl lowercase">from the</span> <br /> Machine
+               </h2>
+            </div>
+
+            {/* Journal Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+              {/* Entry 1 */}
+              <article className="group cursor-pointer">
+                <div className="border-t-2 border-[#1a1a1a] pt-4 mb-4 flex justify-between items-baseline">
+                  <span className="text-xs font-black uppercase tracking-widest text-gray-500">Oct 12, 2025</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-[#0055ff] opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
+                </div>
+                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-[#ff33cc] transition-colors">
+                  The Death of Flat Design
+                </h3>
+                <p className="font-serif italic text-gray-600 leading-relaxed">
+                  Why we are returning to texture, grain, and the tactile error of the printed page.
+                </p>
+              </article>
+
+              {/* Entry 2 */}
+              <article className="group cursor-pointer">
+                <div className="border-t-2 border-[#1a1a1a] pt-4 mb-4 flex justify-between items-baseline">
+                  <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sep 28, 2025</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-[#0055ff] opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
+                </div>
+                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-[#ff33cc] transition-colors">
+                  Color Theory for the Colorblind
+                </h3>
+                <p className="font-serif italic text-gray-600 leading-relaxed">
+                  How high-contrast ink traps create universal legibility in a chaotic world.
+                </p>
+              </article>
+
+              {/* Entry 3 */}
+              <article className="group cursor-pointer">
+                <div className="border-t-2 border-[#1a1a1a] pt-4 mb-4 flex justify-between items-baseline">
+                  <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sep 15, 2025</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-[#0055ff] opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
+                </div>
+                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-[#ff33cc] transition-colors">
+                  Manual Override
+                </h3>
+                <p className="font-serif italic text-gray-600 leading-relaxed">
+                  When the algorithm fails, the human hand must intervene. A case study in glitched layouts.
+                </p>
+              </article>
+            </div>
+            
+            {/* View All Button */}
+            <div className="mt-20 text-center">
+              <button type="button" aria-disabled="true" className="inline-block px-8 py-4 border-2 border-[#1a1a1a] text-[#1a1a1a] font-syne font-black uppercase text-xs tracking-[0.2em] hover:bg-[#1a1a1a] hover:text-[#f4f1ea] transition-all cursor-not-allowed opacity-60">
+                View All Entries
+              </button>
+            </div>
+          </div>
+        </section>
         
-        {/* SECTION 7: Final Conversion Narrative (The Manifesto) */}
+        {/* SECTION 8: Final Conversion Narrative (The Manifesto) */}
         <section className="py-48 md:py-72 bg-[#1a1a1a] text-[#f4f1ea] relative overflow-hidden">
            {/* Cinematic Light Leak Animation */}
            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">

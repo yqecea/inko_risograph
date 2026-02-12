@@ -57,11 +57,6 @@ export class InkEngine {
     });
   }
 
-  private getPassName(index: number): string {
-    const passes = ["PRIMER", "CHROMA_PIN", "STRUCT_BLUE", "FINISH_BLACK"];
-    return passes[index] || "UNKNOWN_PASS";
-  }
-
   /**
    * Generates a unique grain seed for a specific UI element to ensure no two renders are identical.
    */
