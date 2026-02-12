@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INKO | The Risograph SaaS</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://esm.sh 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://picsum.photos https://fastly.picsum.photos data:; connect-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://esm.sh 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://picsum.photos https://fastly.picsum.photos data:; connect-src 'self';">
     <meta name="description" content="INKO — The risograph-inspired SaaS experience. Beautiful, textured, print-aesthetic design tools for the modern web.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="INKO — The Risograph SaaS Experience">
@@ -119,13 +119,6 @@
         @keyframes float-drift {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             50% { transform: translate(15px, -30px) rotate(8deg); }
-        }
-
-        @keyframes scroll-shuttle {
-            0% { transform: translateY(-100%); }
-            50% { transform: translateY(100%); }
-            50.1% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
         }
 
         @keyframes marquee {
