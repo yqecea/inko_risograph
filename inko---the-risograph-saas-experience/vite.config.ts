@@ -10,6 +10,8 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
       },
       plugins: [react()],
+      // NOTE: These keys are intentionally inlined into the client bundle.
+      // They are PUBLIC API keys with domain-restricted access, not secrets.
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)

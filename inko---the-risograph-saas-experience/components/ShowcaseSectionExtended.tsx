@@ -93,7 +93,7 @@ const ShowcaseSectionExtended: React.FC = () => {
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Ink Viscosity</label>
             <div className="flex items-center space-x-4">
-               <input type="range" className="w-full h-1 bg-gray-100 appearance-none rounded-full accent-riso-ink" />
+               <input type="range" aria-label="Ink viscosity control" className="w-full h-1 bg-gray-100 appearance-none rounded-full accent-riso-ink" />
                <span className="text-xs font-bold font-mono">0.85</span>
             </div>
           </div>
@@ -102,7 +102,7 @@ const ShowcaseSectionExtended: React.FC = () => {
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Plate Alignment</label>
             <div className="flex gap-2">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className={`flex-1 h-8 border-2 border-riso-ink flex items-center justify-center text-[8px] font-bold ${i === 2 ? 'bg-riso-yellow' : ''}`}>
+                <div key={i} className={`flex-1 h-8 border-2 border-riso-ink flex items-center justify-center text-[11px] font-bold ${i === 2 ? 'bg-riso-yellow' : ''}`}>
                   0.{i}
                 </div>
               ))}
@@ -164,7 +164,7 @@ const ShowcaseSectionExtended: React.FC = () => {
           </div>
 
           {/* Data Readout Overlay */}
-          <div className="absolute bottom-4 right-4 text-[8px] font-mono bg-riso-ink text-white p-2 space-y-1">
+          <div className="absolute bottom-4 right-4 text-[11px] font-mono bg-riso-ink text-white p-2 space-y-1">
              <div>CURSOR_X: {Math.round(printState.progress * 10)}px</div>
              <div>INK_LOAD: {printState.currentInk}</div>
              <div>BUFFER: OK</div>

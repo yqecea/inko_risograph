@@ -39,9 +39,9 @@ const Navbar: React.FC = () => {
           <div className="relative group cursor-pointer z-[110]">
             <div className="absolute inset-0 bg-[#ff33cc] translate-x-1 -translate-y-1 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="absolute inset-0 bg-[#0055ff] -translate-x-1 translate-y-1 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h1 className="text-3xl font-syne font-black tracking-tighter uppercase relative z-10 transition-transform duration-300 group-hover:scale-105">
+            <span className="text-3xl font-syne font-black tracking-tighter uppercase relative z-10 transition-transform duration-300 group-hover:scale-105">
               Inko<span className="text-[#ff33cc]">.</span>
-            </h1>
+            </span>
           </div>
 
           {/* Desktop Links */}

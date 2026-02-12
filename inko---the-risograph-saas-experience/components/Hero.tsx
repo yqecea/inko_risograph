@@ -72,20 +72,22 @@ const Hero: React.FC = () => {
           {/* Headline: The Signature Visual Moment */}
           <div className="relative mb-24 cursor-default">
             {/* Blue Misalignment Layer */}
-            <h1 
+            <span 
+              aria-hidden="true"
               className="text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-blue mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
               style={{ transform: `translate(${mousePos.x * -35 - 8}px, ${mousePos.y * -35 + 8}px)` }}
             >
               Raw <br /> Energy.
-            </h1>
+            </span>
             
             {/* Pink Misalignment Layer */}
-            <h1 
+            <span 
+              aria-hidden="true"
               className="text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-pink mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
               style={{ transform: `translate(${mousePos.x * 35 + 8}px, ${mousePos.y * 35 - 8}px)` }}
             >
               Raw <br /> Energy.
-            </h1>
+            </span>
 
             {/* Main Typographic Anchor */}
             <h1 

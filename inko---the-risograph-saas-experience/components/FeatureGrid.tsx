@@ -102,7 +102,7 @@ const FeatureGrid: React.FC = () => {
                 <span className="text-4xl font-syne font-black">{metric.value}</span>
                 <span className="text-xs font-bold opacity-30">{metric.unit}</span>
               </div>
-              <div className={`mt-2 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest ${
+              <div className={`mt-2 px-2 py-0.5 text-[11px] font-black uppercase tracking-widest ${
                 metric.status === 'OPTIMAL' ? 'bg-riso-green text-white' : 'bg-riso-yellow text-black'
               }`}>
                 {metric.status}
@@ -213,7 +213,7 @@ const FeatureGrid: React.FC = () => {
 
                 {/* Data Visualization Micro-interaction */}
                 <div className="pt-8 space-y-4">
-                  <div className="flex justify-between text-[8px] font-black uppercase tracking-widest opacity-50">
+                  <div className="flex justify-between text-[11px] font-black uppercase tracking-widest opacity-50">
                     <span>Calibration Level</span>
                     <span>{Math.round(60 + feature.id * 8)}%</span>
                   </div>
@@ -229,11 +229,11 @@ const FeatureGrid: React.FC = () => {
                 <div className="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-[#1a1a1a] border-t border-white/10 hidden lg:block">
                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="text-[8px] uppercase font-black text-gray-500">Processing Rate</div>
+                        <div className="text-[11px] uppercase font-black text-gray-500">Processing Rate</div>
                         <div className="text-xs font-syne font-bold">2.4 GB/s</div>
                       </div>
                       <div>
-                        <div className="text-[8px] uppercase font-black text-gray-500">Ink Density</div>
+                        <div className="text-[11px] uppercase font-black text-gray-500">Ink Density</div>
                         <div className="text-xs font-syne font-bold">600 DPI</div>
                       </div>
                    </div>
@@ -247,7 +247,7 @@ const FeatureGrid: React.FC = () => {
       {/* Signature Section Break: Diagonal Tension Layer */}
       <div className="absolute -bottom-32 left-0 w-full h-64 bg-riso-ink -rotate-2 origin-left z-40 flex items-center overflow-hidden">
         <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]">
-          {[1,2,3,4,5,6].map(i => (
+          {[1,2,3].map(i => (
             <span key={i} className="text-[12rem] font-syne font-black uppercase tracking-tighter mx-12 text-[#f4f1ea] opacity-10 italic">
               UNCOMPROMISED_FIDELITY // UNCOMPROMISED_FIDELITY // 
             </span>

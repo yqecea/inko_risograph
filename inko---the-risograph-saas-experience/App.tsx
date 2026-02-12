@@ -93,11 +93,11 @@ const App: React.FC = () => {
                 </p>
                 <div className="grid grid-cols-2 gap-8 pt-12 border-t-2 border-riso-ink">
                   <div className="space-y-2">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400">Database Engine</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-gray-400">Database Engine</span>
                     <div className="text-lg font-syne font-bold uppercase">Atomic_Ledger_v4</div>
                   </div>
                   <div className="space-y-2">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400">Security Model</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-gray-400">Security Model</span>
                     <div className="text-lg font-syne font-bold uppercase">Ironclad_Plate_Lock</div>
                   </div>
                 </div>
@@ -185,6 +185,7 @@ const App: React.FC = () => {
                          <a 
                            key={social} 
                            href="#" 
+                           aria-disabled="true"
                            className="px-4 py-2 border-2 border-riso-ink text-[10px] font-black uppercase tracking-widest hover:bg-riso-ink hover:text-white transition-all"
                          >
                            {social}
@@ -194,25 +195,25 @@ const App: React.FC = () => {
                  </div>
 
                  {/* Navigation Clusters */}
-                 <div className="md:col-span-2 space-y-10">
+                 <nav aria-label="Footer navigation" className="md:col-span-2 space-y-10">
                     <h4 className="text-[10px] uppercase font-black tracking-[0.4em] text-riso-blue">Inquiry</h4>
                     <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">The Engine</a></li>
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">Manifesto</a></li>
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">Journal</a></li>
-                       <li><a href="#" className="hover:text-riso-pink transition-colors">Licensing</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">The Engine</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Manifesto</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Journal</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-pink transition-colors">Licensing</a></li>
                     </ul>
-                 </div>
+                 </nav>
 
-                 <div className="md:col-span-2 space-y-10">
+                 <nav aria-label="Legal navigation" className="md:col-span-2 space-y-10">
                     <h4 className="text-[10px] uppercase font-black tracking-[0.4em] text-riso-pink">Legal</h4>
                     <ul className="space-y-4 text-lg font-syne font-bold uppercase tracking-tight">
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">Privacy</a></li>
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">Terms</a></li>
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">GDPR</a></li>
-                       <li><a href="#" className="hover:text-riso-blue transition-colors">Cookies</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Privacy</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Terms</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">GDPR</a></li>
+                       <li><a href="#" aria-disabled="true" className="hover:text-riso-blue transition-colors">Cookies</a></li>
                     </ul>
-                 </div>
+                 </nav>
 
                  {/* High-Fidelity Address/Contact */}
                  <div className="md:col-span-3 space-y-10">

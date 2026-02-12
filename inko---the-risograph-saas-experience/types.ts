@@ -28,11 +28,3 @@ export interface NavigationLink {
   label: string;
   href: string;
 }
-
-export interface Testimonial {
-  author: string;
-  role: string;
-  company: string;
-  text: string;
-  image: string;
-}

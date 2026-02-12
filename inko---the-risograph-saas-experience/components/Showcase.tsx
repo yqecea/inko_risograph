@@ -11,18 +11,17 @@ const Showcase: React.FC = () => {
     const handleWheel = (e: WheelEvent) => {
       if (window.innerWidth < 1024) return;
       
-      // If we're inside the showcase, intercept vertical scroll and make it horizontal
+      // Supplement vertical scroll with horizontal scrolling (non-blocking)
       const rect = container.getBoundingClientRect();
       if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
         if ((e.deltaY > 0 && container.scrollLeft < container.scrollWidth - container.clientWidth) ||
             (e.deltaY < 0 && container.scrollLeft > 0)) {
-          e.preventDefault();
           container.scrollLeft += e.deltaY;
         }
       }
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
@@ -63,7 +62,7 @@ const Showcase: React.FC = () => {
                </div>
                <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-blue/50 transition-colors">
                   <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                  <img src="https://picsum.photos/seed/ink1/800/450" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 1" />
+                   <img src="https://picsum.photos/seed/ink1/800/450" width="800" height="450" loading="lazy" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 1" />
                   <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">LDR_PROC_INIT.exe</div>
                </div>
              </div>
@@ -93,7 +92,7 @@ const Showcase: React.FC = () => {
                </div>
                <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-pink/50 transition-colors">
                   <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                  <img src="https://picsum.photos/seed/ink2/800/450" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 2" />
+                   <img src="https://picsum.photos/seed/ink2/800/450" width="800" height="450" loading="lazy" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 2" />
                   <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">RGB_CMYK_XFORM.dll</div>
                </div>
              </div>
@@ -123,7 +122,7 @@ const Showcase: React.FC = () => {
                </div>
                <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-yellow/50 transition-colors">
                   <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                  <img src="https://picsum.photos/seed/ink3/800/450" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 3" />
+                   <img src="https://picsum.photos/seed/ink3/800/450" width="800" height="450" loading="lazy" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 3" />
                   <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">FINAL_PULL_OUTPUT.bin</div>
                </div>
              </div>
