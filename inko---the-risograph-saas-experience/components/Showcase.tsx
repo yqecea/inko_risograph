@@ -1,146 +1,299 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
+const SLIDES = [
+  {
+    num: '01',
+    hex: '#0055ff',
+    title: 'The Emulsion',
+    description:
+      '"We start by emulsifying your data streams into a unified light-sensitive layer. Our algorithms detect the most subtle patterns, preparing them for the first pass of the digital press."',
+    features: ['Real-time ingestion', 'Pattern sensitivity 99.4%', 'Noise reduction filters'],
+    imgSeed: 'ink1',
+    filename: 'LDR_PROC_INIT.exe',
+  },
+  {
+    num: '02',
+    hex: '#ff33cc',
+    title: 'Multi-Pass Mixing',
+    description:
+      '"Insights aren\'t binary. We overlay multiple perspectives using our unique ink-mixing logic. Discover what happens when your sales data meets sentiment analysis in a high-contrast overlap."',
+    features: ['Dual-layer blending', 'Chromatic analysis', 'Contextual overlapping'],
+    imgSeed: 'ink2',
+    filename: 'RGB_CMYK_XFORM.dll',
+  },
+  {
+    num: '03',
+    hex: '#ffdd00',
+    title: 'The Final Pull',
+    description:
+      '"The result is a high-fidelity report with tangible value. Export your findings into a format that demands attention and respect in the boardroom."',
+    features: ['High-res PDF export', 'Tactile UI elements', 'Collaborative proofing'],
+    imgSeed: 'ink3',
+    filename: 'FINAL_PULL_OUTPUT.bin',
+  },
+];
+
+/**
+ * Showcase — "Layered Intelligence" horizontal scroll section.
+ * Desktop: scroll-hijack converts vertical wheel → horizontal slide navigation.
+ * Mobile: native horizontal swipe with snap points.
+ */
 const Showcase: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Entrance animation via IntersectionObserver
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      { threshold: 0.15 },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Scroll hijack (desktop) + active slide tracking + progress
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
+    const updateActiveSlide = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const maxScroll = scrollWidth - clientWidth;
+      if (maxScroll <= 0) return;
+      setScrollProgress(scrollLeft / maxScroll);
+      const idx = Math.round((scrollLeft / maxScroll) * (SLIDES.length - 1));
+      setActiveSlide(Math.min(idx, SLIDES.length - 1));
+    };
+
     const handleWheel = (e: WheelEvent) => {
       if (window.innerWidth < 1024) return;
-      
-      // Supplement vertical scroll with horizontal scrolling (non-blocking)
       const rect = container.getBoundingClientRect();
       if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
-        if ((e.deltaY > 0 && container.scrollLeft < container.scrollWidth - container.clientWidth) ||
-            (e.deltaY < 0 && container.scrollLeft > 0)) {
-          container.scrollLeft += e.deltaY;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (
+          (e.deltaY > 0 && container.scrollLeft < maxScroll) ||
+          (e.deltaY < 0 && container.scrollLeft > 0)
+        ) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY * 1.5;
+          updateActiveSlide();
         }
       }
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
-    return () => window.removeEventListener('wheel', handleWheel);
+    container.addEventListener('scroll', updateActiveSlide, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener('scroll', updateActiveSlide);
+      window.removeEventListener('wheel', handleWheel);
+    };
   }, []);
 
+  const scrollToSlide = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const target = (index / (SLIDES.length - 1)) * maxScroll;
+    container.scrollTo({ left: target, behavior: 'smooth' });
+  };
+
   return (
-    <section id="process" className="py-24 md:py-48 bg-[#1a1a1a] text-[#f4f1ea] overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="process"
+      className="py-24 md:py-48 bg-[#1a1a1a] text-[#f4f1ea] overflow-hidden"
+    >
+      {/* Header */}
       <div className="container mx-auto px-6 mb-20">
-        <h2 className="text-sm uppercase tracking-[0.5em] font-bold text-riso-pink mb-4">02 / The Process</h2>
-        <h3 className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter">
-          Layered <br /> Intelligence.
-        </h3>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div>
+            <h2
+              className="text-sm uppercase tracking-[0.5em] font-bold mb-4 transition-all duration-700"
+              style={{
+                color: '#ff33cc',
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+              }}
+            >
+              02 / The Process
+            </h2>
+            <h3
+              className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter transition-all duration-700"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                transitionDelay: '150ms',
+              }}
+            >
+              Layered <br /> Intelligence.
+            </h3>
+          </div>
+
+          {/* Slide indicators — desktop only */}
+          <div className="hidden lg:flex items-center gap-3 pb-2">
+            {SLIDES.map((slide, i) => (
+              <button
+                key={slide.num}
+                onClick={() => scrollToSlide(i)}
+                className="relative h-1 bg-white/20 overflow-hidden cursor-pointer transition-all duration-300"
+                style={{ width: activeSlide === i ? '4rem' : '2rem' }}
+                aria-label={`Go to slide ${i + 1}`}
+              >
+                <div
+                  className="absolute inset-0 transition-transform duration-500"
+                  style={{
+                    backgroundColor: slide.hex,
+                    transform: activeSlide === i ? 'scaleX(1)' : 'scaleX(0)',
+                    transformOrigin: 'left',
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Horizontal Scroll Area */}
-      <div 
+      <div
         ref={scrollContainerRef}
         className="flex overflow-x-auto lg:overflow-x-hidden space-x-6 md:space-x-12 px-6 pb-20 scrollbar-hide no-scrollbar snap-x snap-mandatory lg:snap-none"
       >
-        {/* Slide 1 */}
-        <div className="flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start">
-          <div className="absolute inset-0 bg-riso-blue mix-blend-screen opacity-10 transition-opacity group-hover:opacity-20"></div>
-          <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
-             <div className="flex justify-between items-start">
-               <span className="text-6xl font-syne font-black text-riso-blue">01</span>
-               <div className="w-24 h-[1px] bg-riso-blue mt-8"></div>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-               <div className="space-y-6">
-                 <h4 className="text-3xl font-syne font-bold uppercase">The Emulsion</h4>
-                 <p className="text-gray-400 leading-relaxed font-medium">
-                   "We start by emulsifying your data streams into a unified light-sensitive layer. 
-                   Our algorithms detect the most subtle patterns, preparing them for the first pass of the digital press."
-                 </p>
-                 <ul className="space-y-3 text-xs uppercase tracking-widest font-bold text-riso-blue">
-                   <li>• Real-time ingestion</li>
-                   <li>• Pattern sensitivity 99.4%</li>
-                   <li>• Noise reduction filters</li>
-                 </ul>
-               </div>
-               <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-blue/50 transition-colors">
-                  <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                   <img src="https://picsum.photos/seed/ink1/800/450" width="800" height="450" loading="lazy" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 1" />
-                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">LDR_PROC_INIT.exe</div>
-               </div>
-             </div>
-          </div>
-        </div>
+        {SLIDES.map((slide, i) => (
+          <div
+            key={slide.num}
+            className="showcase-slide flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(60px) scale(0.95)',
+              transition: `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${300 + i * 200}ms`,
+            }}
+          >
+            {/* Color wash overlay */}
+            <div
+              className="absolute inset-0 mix-blend-screen opacity-10 transition-opacity duration-500 group-hover:opacity-25"
+              style={{ backgroundColor: slide.hex }}
+            />
 
-        {/* Slide 2 */}
-        <div className="flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start">
-          <div className="absolute inset-0 bg-riso-pink mix-blend-screen opacity-10 transition-opacity group-hover:opacity-20"></div>
-          <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
-             <div className="flex justify-between items-start">
-               <span className="text-6xl font-syne font-black text-riso-pink">02</span>
-               <div className="w-24 h-[1px] bg-riso-pink mt-8"></div>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-               <div className="space-y-6">
-                 <h4 className="text-3xl font-syne font-bold uppercase">Multi-Pass Mixing</h4>
-                 <p className="text-gray-400 leading-relaxed font-medium">
-                   "Insights aren't binary. We overlay multiple perspectives using our unique ink-mixing logic. 
-                   Discover what happens when your sales data meets sentiment analysis in a high-contrast overlap."
-                 </p>
-                 <ul className="space-y-3 text-xs uppercase tracking-widest font-bold text-riso-pink">
-                   <li>• Dual-layer blending</li>
-                   <li>• Chromatic analysis</li>
-                   <li>• Contextual overlapping</li>
-                 </ul>
-               </div>
-               <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-pink/50 transition-colors">
-                  <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                   <img src="https://picsum.photos/seed/ink2/800/450" width="800" height="450" loading="lazy" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 2" />
-                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">RGB_CMYK_XFORM.dll</div>
-               </div>
-             </div>
-          </div>
-        </div>
+            <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm transition-all duration-500 group-hover:border-[#f4f1ea]/40">
+              {/* Slide number + accent line */}
+              <div className="flex justify-between items-start">
+                <span
+                  className="text-6xl font-syne font-black transition-all duration-500 group-hover:tracking-wider"
+                  style={{ color: slide.hex }}
+                >
+                  {slide.num}
+                </span>
+                <div
+                  className="h-[1px] mt-8 transition-all duration-700"
+                  style={{
+                    backgroundColor: slide.hex,
+                    width: activeSlide === i ? '6rem' : '3rem',
+                  }}
+                />
+              </div>
 
-        {/* Slide 3 */}
-        <div className="flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start">
-          <div className="absolute inset-0 bg-riso-yellow mix-blend-screen opacity-10 transition-opacity group-hover:opacity-20"></div>
-          <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
-             <div className="flex justify-between items-start">
-               <span className="text-6xl font-syne font-black text-riso-yellow">03</span>
-               <div className="w-24 h-[1px] bg-riso-yellow mt-8"></div>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-               <div className="space-y-6">
-                 <h4 className="text-3xl font-syne font-bold uppercase">The Final Pull</h4>
-                 <p className="text-gray-400 leading-relaxed font-medium">
-                   "The result is a high-fidelity report with tangible value. 
-                   Export your findings into a format that demands attention and respect in the boardroom."
-                 </p>
-                 <ul className="space-y-3 text-xs uppercase tracking-widest font-bold text-riso-yellow">
-                   <li>• High-res PDF export</li>
-                   <li>• Tactile UI elements</li>
-                   <li>• Collaborative proofing</li>
-                 </ul>
-               </div>
-               <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-yellow/50 transition-colors">
-                  <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                   <img src="https://picsum.photos/seed/ink3/800/450" width="800" height="450" loading="lazy" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 3" />
-                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">FINAL_PULL_OUTPUT.bin</div>
-               </div>
-             </div>
+              {/* Content grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="space-y-6">
+                  <h4 className="text-3xl font-syne font-bold uppercase transition-transform duration-500 group-hover:translate-x-2">
+                    {slide.title}
+                  </h4>
+                  <p className="text-gray-400 leading-relaxed font-medium">
+                    {slide.description}
+                  </p>
+                  <ul
+                    className="space-y-3 text-xs uppercase tracking-widest font-bold"
+                    style={{ color: slide.hex }}
+                  >
+                    {slide.features.map((feat, j) => (
+                      <li
+                        key={j}
+                        className="transition-all duration-300 group-hover:translate-x-1"
+                        style={{ transitionDelay: `${j * 80}ms` }}
+                      >
+                        • {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Image panel */}
+                <div
+                  className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 transition-all duration-500"
+                  style={{ borderColor: undefined }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.borderColor = `${slide.hex}80`;
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.1)';
+                  }}
+                >
+                  <div className="absolute inset-0 halftone-bg text-black opacity-40" />
+                  <img
+                    src={`https://picsum.photos/seed/${slide.imgSeed}/800/450`}
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                    className="w-full h-full object-cover mix-blend-multiply opacity-80 transition-transform duration-700 group-hover:scale-105"
+                    alt={`Process ${i + 1}`}
+                  />
+                  {/* Color flash overlay on hover */}
+                  <div
+                    className="absolute inset-0 mix-blend-multiply opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+                    style={{ backgroundColor: slide.hex }}
+                  />
+                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">
+                    {slide.filename}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        ))}
+      </div>
+
+      {/* Scroll progress bar — desktop only */}
+      <div className="hidden lg:block container mx-auto px-6 -mt-12 mb-8">
+        <div className="w-full h-[2px] bg-white/10 overflow-hidden">
+          <div
+            className="h-full transition-transform duration-150 origin-left"
+            style={{
+              backgroundColor: '#ff33cc',
+              transform: `scaleX(${scrollProgress})`,
+            }}
+          />
         </div>
       </div>
 
       {/* Decorative Text Loop at bottom */}
       <div className="w-full overflow-hidden py-12 border-t border-white/10 mt-12">
         <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]">
-          {[1,2,3,4,5,6].map(i => (
-            <span key={i} className="text-8xl font-syne font-black uppercase tracking-tighter mx-12 opacity-20 outline-text">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <span
+              key={i}
+              className="text-8xl font-syne font-black uppercase tracking-tighter mx-12 opacity-20 outline-text"
+            >
               Quality over Quantity — Quality over Quantity —
             </span>
           ))}
         </div>
       </div>
 
+      <style>{`
+        .showcase-slide {
+          will-change: transform, opacity;
+        }
+        .showcase-slide:hover {
+          box-shadow: 0 0 60px -15px rgba(255, 51, 204, 0.15);
+        }
+      `}</style>
     </section>
   );
 };
