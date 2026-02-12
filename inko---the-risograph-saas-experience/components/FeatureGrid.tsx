@@ -61,13 +61,13 @@ const FeatureGrid: React.FC = () => {
     <section 
       id="features" 
       ref={sectionRef}
-      className="py-32 md:py-64 relative overflow-hidden bg-[#f4f1ea] selection:bg-[#1a1a1a] selection:text-[#f4f1ea]"
+      className="py-32 md:py-64 relative overflow-hidden bg-riso-paper selection:bg-riso-ink selection:text-riso-paper"
     >
       {/* 3-Plane Atmospheric Depth: Background Layer */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
         {/* Massive Typographic Graphic Layer (Aria-Hidden) */}
         <div 
-          className="absolute top-0 left-0 text-[35vw] font-syne font-black text-[#1a1a1a]/[0.02] leading-none uppercase -translate-x-12 translate-y-24"
+          className="absolute top-0 left-0 text-[35vw] font-syne font-black text-riso-ink/[0.02] leading-none uppercase -translate-x-12 translate-y-24"
           aria-hidden="true"
         >
           CORE
@@ -77,7 +77,7 @@ const FeatureGrid: React.FC = () => {
         <div 
           className="absolute inset-0 opacity-[0.03] animate-pulse"
           style={{ 
-            backgroundImage: `radial-gradient(#1a1a1a 1px, transparent 0)`, 
+            backgroundImage: `radial-gradient(var(--riso-ink) 1px, transparent 0)`, 
             backgroundSize: '24px 24px',
             animationDuration: '8s'
           }}
@@ -124,7 +124,7 @@ const FeatureGrid: React.FC = () => {
               </span>
             </div>
             <h2 
-              className="text-5xl font-syne font-black uppercase leading-[0.8] tracking-tighter"
+              className="text-5xl font-syne font-black uppercase leading-[0.85] tracking-tighter"
               style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
             >
               A Better <br /> 
@@ -141,7 +141,7 @@ const FeatureGrid: React.FC = () => {
                 "We don't just render data; we give it weight. Every insight processed by Inko carries the tactile history of the physical press, ensuring your decisions are grounded in visual authority."
               </p>
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-riso-ink flex items-center justify-center text-[#f4f1ea] font-syne font-black text-[10px]">
+                <div className="w-12 h-12 rounded-full bg-riso-ink flex items-center justify-center text-riso-paper font-syne font-black text-[10px]">
                   INK
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-widest">Master Plate Certified — 2025</span>
@@ -164,8 +164,8 @@ const FeatureGrid: React.FC = () => {
               onMouseLeave={() => setActiveFeature(null)}
               onFocus={() => setActiveFeature(feature.id)}
               onBlur={() => setActiveFeature(null)}
-              className={`group relative py-16 px-8 border-b-4 border-riso-ink lg:border-b-0 lg:border-r-4 last:border-r-0 transition-all duration-500 cursor-pointer ${
-                activeFeature === feature.id ? 'bg-[#1a1a1a] text-[#f4f1ea]' : 'bg-white'
+              className={`group relative overflow-hidden py-16 px-8 border-b-4 border-riso-ink lg:border-b-0 lg:border-r-4 last:border-r-0 transition-all duration-500 cursor-pointer ${
+                activeFeature === feature.id ? 'bg-riso-ink text-riso-paper' : 'bg-white'
               }`}
             >
               {/* Dynamic Background Texture (Signature Motif) */}
@@ -179,7 +179,7 @@ const FeatureGrid: React.FC = () => {
                 {/* Module ID Badge */}
                 <div className="flex justify-between items-center">
                   <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-2 py-1 transition-colors ${
-                    activeFeature === feature.id ? 'bg-[#f4f1ea] text-[#1a1a1a]' : 'bg-riso-ink text-white'
+                    activeFeature === feature.id ? 'bg-riso-paper text-riso-ink' : 'bg-riso-ink text-white'
                   }`}>
                     MOD. 00{feature.id}
                   </span>
@@ -233,7 +233,7 @@ const FeatureGrid: React.FC = () => {
                 </div>
 
                 {/* Detailed Technical Specs (Revealed on Hover) */}
-                <div className="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-[#1a1a1a] border-t border-white/10 hidden lg:block">
+                <div className="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-riso-ink border-t border-white/10 hidden lg:block">
                    <div className="grid grid-cols-2 gap-4">
                       <div>
                         <div className="text-[11px] uppercase font-black text-gray-500">Processing Rate</div>
@@ -255,7 +255,7 @@ const FeatureGrid: React.FC = () => {
       <div className="absolute -bottom-16 left-0 w-full h-64 bg-riso-ink -rotate-2 origin-left z-10 flex items-center overflow-hidden">
         <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]">
           {[1,2,3].map(i => (
-            <span key={i} className="text-[12rem] font-syne font-black uppercase tracking-tighter mx-12 text-[#f4f1ea] opacity-10 italic">
+            <span key={i} className="text-[12rem] font-syne font-black uppercase tracking-tighter mx-12 text-riso-paper opacity-10 italic">
               UNCOMPROMISED_FIDELITY // UNCOMPROMISED_FIDELITY // 
             </span>
           ))}
@@ -263,7 +263,7 @@ const FeatureGrid: React.FC = () => {
       </div>
 
       {/* Atmospheric Texture Gradient */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-[#f4f1ea] to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-riso-paper to-transparent pointer-events-none"></div>
       
       <style>{`
         /* Responsive structural transformation (Desktop-first approach) */

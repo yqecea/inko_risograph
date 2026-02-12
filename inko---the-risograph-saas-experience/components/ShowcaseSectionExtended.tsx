@@ -12,7 +12,6 @@ import { ColorPalette } from '../types';
 
 interface PrintState {
   isActive: boolean;
-  progress: number;
   currentInk: ColorPalette;
   pressure: number;
 }
@@ -20,13 +19,21 @@ interface PrintState {
 const ShowcaseSectionExtended: React.FC = () => {
   const [printState, setPrintState] = useState<PrintState>({
     isActive: false,
-    progress: 0,
     currentInk: ColorPalette.PINK,
     pressure: 0.8,
   });
 
   const [hasEntered, setHasEntered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Animation refs
+  const progressRef = useRef(0);
+  const printHeadRef = useRef<HTMLDivElement>(null);
+  const textLayer1Ref = useRef<HTMLHeadingElement>(null);
+  const textLayer2Ref = useRef<HTMLHeadingElement>(null);
+  const textLayer3Ref = useRef<HTMLHeadingElement>(null);
+  const cursorReadoutRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,15 +64,50 @@ const ShowcaseSectionExtended: React.FC = () => {
       const elapsed = now - lastTime;
       if (elapsed >= 16) {
         lastTime = now;
-        setPrintState((prev) => {
-          if (prev.progress >= 100) {
-            // Switch color and restart
+        
+        if (progressRef.current >= 100) {
+          progressRef.current = 0;
+          setPrintState((prev) => {
             const colors = [ColorPalette.PINK, ColorPalette.BLUE, ColorPalette.YELLOW];
             const nextIndex = (colors.indexOf(prev.currentInk) + 1) % colors.length;
-            return { ...prev, progress: 0, currentInk: colors[nextIndex] };
-          }
-          return { ...prev, progress: prev.progress + 0.5 };
-        });
+            return { ...prev, currentInk: colors[nextIndex] };
+          });
+        } else {
+          progressRef.current += 0.5;
+        }
+
+        const p = progressRef.current;
+
+        if (progressBarRef.current) {
+          progressBarRef.current.style.width = `${p}%`;
+        }
+        if (printHeadRef.current) {
+          printHeadRef.current.style.left = `${p}%`;
+        }
+        
+        const inset = `inset(0 ${100 - p}% 0 0)`;
+        
+        if (textLayer1Ref.current) {
+          const tx = Math.sin(p * 0.1) * 4;
+          const ty = Math.cos(p * 0.1) * 4;
+          textLayer1Ref.current.style.transform = `translate(${tx}px, ${ty}px)`;
+          textLayer1Ref.current.style.clipPath = inset;
+        }
+        
+        if (textLayer2Ref.current) {
+          const tx = Math.cos(p * 0.1) * -4;
+          const ty = Math.sin(p * 0.1) * -4;
+          textLayer2Ref.current.style.transform = `translate(${tx}px, ${ty}px)`;
+          textLayer2Ref.current.style.clipPath = inset;
+        }
+        
+        if (textLayer3Ref.current) {
+          textLayer3Ref.current.style.clipPath = inset;
+        }
+
+        if (cursorReadoutRef.current) {
+          cursorReadoutRef.current.textContent = `CURSOR_X: ${Math.round(p * 10)}px`;
+        }
       }
       rafId = requestAnimationFrame(step);
     };
@@ -101,8 +143,9 @@ const ShowcaseSectionExtended: React.FC = () => {
           <div className={`w-3 h-3 rounded-full ${printState.isActive ? 'bg-riso-green animate-pulse' : 'bg-gray-300'}`}></div>
           <div className="w-12 h-3 bg-gray-200 relative overflow-hidden">
              <div 
+               ref={progressBarRef}
                className="absolute top-0 left-0 h-full bg-riso-blue transition-all duration-300" 
-               style={{ width: `${printState.progress}%` }}
+               style={{ width: '0%' }}
              ></div>
           </div>
         </div>
@@ -154,14 +197,15 @@ const ShowcaseSectionExtended: React.FC = () => {
         </div>
 
         {/* Visualizer Column */}
-        <div className="md:col-span-2 relative aspect-video bg-[#f0f0f0] border-4 border-riso-ink overflow-hidden group">
+        <div className="md:col-span-2 relative aspect-video bg-gray-100 border-4 border-riso-ink overflow-hidden group">
           {/* Halftone Overlay */}
           <div className="absolute inset-0 halftone-bg text-black/5 opacity-50"></div>
           
           {/* The "Print Head" Bar */}
           <div 
+            ref={printHeadRef}
             className="absolute top-0 w-2 h-full bg-riso-ink z-20 shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-100 ease-linear"
-            style={{ left: `${printState.progress}%` }}
+            style={{ left: '0%' }}
           >
             <div className="absolute top-0 -translate-x-1/2 w-8 h-8 bg-riso-ink rotate-45"></div>
             <div className="absolute bottom-0 -translate-x-1/2 w-8 h-8 bg-riso-ink rotate-45"></div>
@@ -172,28 +216,31 @@ const ShowcaseSectionExtended: React.FC = () => {
              <div className="relative w-full h-full">
                 {/* Misaligned Text Layers */}
                 <h5 
+                  ref={textLayer1Ref}
                   className="text-3xl sm:text-5xl md:text-8xl font-syne font-black uppercase absolute inset-0 flex items-center justify-center mix-blend-multiply opacity-40 transition-transform duration-100"
                   style={{ 
                     color: ColorPalette.PINK, 
-                    transform: `translate(${Math.sin(printState.progress * 0.1) * 4}px, ${Math.cos(printState.progress * 0.1) * 4}px)`,
-                    clipPath: `inset(0 ${100 - printState.progress}% 0 0)` 
+                    transform: 'translate(0px, 0px)',
+                    clipPath: 'inset(0 100% 0 0)' 
                   }}
                 >
                   Insight
                 </h5>
                 <h5 
+                  ref={textLayer2Ref}
                   className="text-3xl sm:text-5xl md:text-8xl font-syne font-black uppercase absolute inset-0 flex items-center justify-center mix-blend-multiply opacity-40 transition-transform duration-100"
                   style={{ 
                     color: ColorPalette.BLUE, 
-                    transform: `translate(${Math.cos(printState.progress * 0.1) * -4}px, ${Math.sin(printState.progress * 0.1) * -4}px)`,
-                    clipPath: `inset(0 ${100 - printState.progress}% 0 0)` 
+                    transform: 'translate(0px, 0px)',
+                    clipPath: 'inset(0 100% 0 0)' 
                   }}
                 >
                   Insight
                 </h5>
                 <h5 
+                  ref={textLayer3Ref}
                   className="text-3xl sm:text-5xl md:text-8xl font-syne font-black uppercase relative flex items-center justify-center text-riso-ink"
-                  style={{ clipPath: `inset(0 ${100 - printState.progress}% 0 0)` }}
+                  style={{ clipPath: 'inset(0 100% 0 0)' }}
                 >
                   Insight
                 </h5>
@@ -202,7 +249,7 @@ const ShowcaseSectionExtended: React.FC = () => {
 
           {/* Data Readout Overlay */}
           <div className="absolute bottom-4 right-4 text-[11px] font-mono bg-riso-ink text-white p-2 space-y-1">
-             <div>CURSOR_X: {Math.round(printState.progress * 10)}px</div>
+             <div ref={cursorReadoutRef}>CURSOR_X: 0px</div>
              <div>INK_LOAD: {printState.currentInk}</div>
              <div>BUFFER: OK</div>
           </div>

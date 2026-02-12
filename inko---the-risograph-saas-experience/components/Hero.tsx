@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
         aria-hidden="true"
       >
         <div 
-          className="text-[45vw] font-syne font-black leading-none uppercase tracking-tighter text-[#1a1a1a]/[0.02] transform transition-transform duration-1000 ease-out"
+          className="text-[45vw] font-syne font-black leading-none uppercase tracking-tighter text-riso-ink/[0.02] transform transition-transform duration-1000 ease-out"
           style={{ transform: `scale(${1 + Math.abs(mousePos.x) * 0.1})` }}
         >
           INKO
@@ -63,7 +63,7 @@ const Hero: React.FC = () => {
             <div 
               className={`transition-all duration-1000 delay-300 ${isMounted ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
             >
-              <span className="inline-block text-[10px] uppercase tracking-[0.6em] font-black text-riso-blue">
+              <span className="inline-block text-xs uppercase tracking-[0.6em] font-black text-riso-blue">
                 EST. MMXXV — THE ARCHIVAL DATA PRESS
               </span>
             </div>
@@ -131,13 +131,13 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Plane 3: Floating Cinematic Elements (Atmosphere Layer) */}
-      <div className="absolute top-1/4 left-10 w-32 h-32 border-[12px] border-riso-blue/20 rounded-full animate-[float-drift_10s_ease-in-out_infinite] pointer-events-none"></div>
-      <div className="absolute bottom-1/3 right-10 w-48 h-48 bg-riso-yellow/10 mix-blend-multiply animate-[float-drift_10s_ease-in-out_infinite] pointer-events-none" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute top-1/2 right-1/4 w-24 h-64 bg-riso-pink/10 rotate-45 animate-[float-drift_10s_ease-in-out_infinite] pointer-events-none" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/4 left-10 w-32 h-32 border-[12px] border-riso-blue/20 rounded-full animate-[float-drift_10s_ease-in-out_infinite] pointer-events-none hidden md:block"></div>
+      <div className="absolute bottom-1/3 right-10 w-48 h-48 bg-riso-yellow/10 mix-blend-multiply animate-[float-drift_10s_ease-in-out_infinite] pointer-events-none hidden md:block" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 right-1/4 w-24 h-64 bg-riso-pink/10 rotate-45 animate-[float-drift_10s_ease-in-out_infinite] pointer-events-none hidden md:block" style={{ animationDelay: '2s' }}></div>
 
       {/* Interaction Cue: Scroll Indicator */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4">
-        <span className="text-[9px] uppercase tracking-[0.4em] font-black opacity-40">Scroll to Ingest</span>
+        <span className="text-[11px] uppercase tracking-[0.4em] font-black opacity-40">Scroll to Ingest</span>
         <div className="w-[3px] h-16 bg-riso-ink/10 relative overflow-hidden rounded-full">
           <div className="absolute top-0 left-0 w-full h-1/2 bg-riso-pink animate-[scroll-shuttle_2.5s_infinite]"></div>
         </div>

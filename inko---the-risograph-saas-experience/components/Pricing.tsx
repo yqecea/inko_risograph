@@ -4,11 +4,11 @@ import { PRICING_PLANS } from '../constants';
 
 const Pricing: React.FC = () => {
   return (
-    <section id="pricing" className="pricing-section py-24 md:py-48 bg-[#1a1a1a] relative overflow-hidden">
+    <section id="pricing" className="pricing-section py-24 md:py-48 bg-riso-ink relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-24">
            <span className="text-sm uppercase tracking-[0.5em] font-bold text-riso-yellow mb-6 block">04 / The Investment</span>
-           <h2 className="text-5xl md:text-8xl font-syne font-black uppercase tracking-tighter leading-none text-[#f4f1ea]">
+           <h2 className="text-5xl md:text-8xl font-syne font-black uppercase tracking-tighter leading-none text-riso-paper">
              Choose <br /> Your <br /> <span className="text-riso-blue">Density.</span>
            </h2>
         </div>
@@ -31,7 +31,7 @@ const Pricing: React.FC = () => {
                     {plan.name}
                   </span>
                   <div className="flex items-baseline">
-                    <span className="text-5xl font-syne font-black text-[#f4f1ea]">${plan.price}</span>
+                    <span className="text-5xl font-syne font-black text-riso-paper">${plan.price}</span>
                     <span className="text-xs text-gray-400 uppercase font-bold ml-2">/ month</span>
                   </div>
                 </div>
@@ -39,7 +39,7 @@ const Pricing: React.FC = () => {
                 <div className="flex-grow">
                   <ul className="space-y-4">
                     {plan.features.map((feature, fIdx) => (
-                      <li key={fIdx} className="flex items-center space-x-3 text-sm font-medium text-gray-300">
+                      <li key={fIdx} className="flex items-center space-x-3 text-sm font-medium text-gray-200">
                         <svg className="w-5 h-5 text-riso-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
@@ -72,7 +72,7 @@ const Pricing: React.FC = () => {
           <p className="text-gray-400 font-serif italic text-lg mb-8">
             "Questions about our proprietary ink-delivery methods?"
           </p>
-          <a href="#journal" className="inline-block text-riso-blue font-syne text-sm uppercase tracking-widest font-bold border-b-4 border-riso-blue pb-2 hover:text-[#f4f1ea] transition-colors">
+          <a href="#journal" className="inline-block text-riso-blue font-syne text-sm uppercase tracking-widest font-bold border-b-4 border-riso-blue pb-2 hover:text-riso-paper transition-colors">
             Consult the Archivist →
           </a>
         </div>

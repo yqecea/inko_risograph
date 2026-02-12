@@ -25,19 +25,21 @@ const App: React.FC = () => {
   useEffect(() => {
     setIsLoaded(true);
     
+    let rafId: number | null = null;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      lastScrollY.current = currentScrollY;
-
-      // Update global CSS tokens for scroll-reactive elements
-      const scrollPercentage = (currentScrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      mainRef.current?.style.setProperty('--scroll-progress', `${scrollPercentage}%`);
-      mainRef.current?.style.setProperty('--scroll-y', `${currentScrollY}px`);
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const currentScrollY = window.scrollY;
+        lastScrollY.current = currentScrollY;
+        const scrollPercentage = (currentScrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        mainRef.current?.style.setProperty('--scroll-progress', `${scrollPercentage}%`);
+        mainRef.current?.style.setProperty('--scroll-y', `${currentScrollY}px`);
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => { window.removeEventListener('scroll', handleScroll); if (rafId !== null) cancelAnimationFrame(rafId); };
   }, []);
 
   return (
@@ -67,7 +69,7 @@ const App: React.FC = () => {
         
         {/* Section Transition: The Bleed Zone */}
         <div className="relative h-64 z-20 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a1a1a]/5 to-[#f4f1ea]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-riso-ink/5 to-[#f4f1ea]"></div>
           <div className="absolute bottom-0 left-0 w-full h-[1px] bg-riso-ink/10"></div>
         </div>
         
@@ -80,7 +82,7 @@ const App: React.FC = () => {
         {/* SECTION 3: Technical Precision Section (The Archive) */}
         <section className="py-48 bg-white relative overflow-hidden">
           {/* Spatial Storytelling Layer */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-[#1a1a1a] translate-x-1/4 -rotate-12 origin-top-right -z-10 opacity-[0.02]"></div>
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-riso-ink translate-x-1/4 -rotate-12 origin-top-right -z-10 opacity-[0.02]"></div>
           
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center">
@@ -107,7 +109,7 @@ const App: React.FC = () => {
               </div>
 
                {/* Graphical Sculpture */}
-              <div className="relative aspect-square bg-[#f4f1ea] border-8 border-riso-ink p-12 group overflow-hidden">
+              <div className="relative aspect-square bg-riso-paper border-8 border-riso-ink p-12 group overflow-hidden">
                 <div className="absolute inset-0 halftone-bg opacity-10 group-hover:opacity-20 transition-opacity"></div>
                 <div className="relative w-full h-full border-4 border-riso-ink flex items-center justify-center p-8 bg-white shadow-[10px_10px_0px_#ff33cc] md:shadow-[20px_20px_0px_#ff33cc]">
                   <div className="text-center space-y-8">
@@ -133,17 +135,17 @@ const App: React.FC = () => {
         <Pricing />
 
         {/* SECTION 7: The Journal */}
-        <section id="journal" className="py-32 bg-[#f4f1ea] relative overflow-hidden text-[#1a1a1a]">
+        <section id="journal" className="py-32 bg-riso-paper relative overflow-hidden text-riso-ink">
           {/* Decorative Background Elements */}
-          <div className="absolute top-0 left-1/4 w-px h-full bg-[#1a1a1a] opacity-10"></div>
-          <div className="absolute top-0 right-1/4 w-px h-full bg-[#1a1a1a] opacity-10"></div>
+          <div className="absolute top-0 left-1/4 w-px h-full bg-riso-ink opacity-10"></div>
+          <div className="absolute top-0 right-1/4 w-px h-full bg-riso-ink opacity-10"></div>
           
           <div className="container mx-auto px-6 relative z-10">
             {/* Section Header */}
             <div className="mb-24 flex flex-col items-center text-center">
-               <span className="text-[10px] uppercase tracking-[0.4em] font-black text-[#1a1a1a] mb-4">05 / THE JOURNAL</span>
+               <span className="text-[10px] uppercase tracking-[0.4em] font-black text-riso-ink mb-4">05 / THE JOURNAL</span>
                <h2 className="text-6xl md:text-8xl font-syne font-black uppercase leading-[0.85] tracking-tighter">
-                 Thoughts <br /> <span className="text-[#ff33cc] italic font-serif text-5xl md:text-7xl lowercase">from the</span> <br /> Machine
+                 Thoughts <br /> <span className="text-riso-pink italic font-serif text-5xl md:text-7xl lowercase">from the</span> <br /> Machine
                </h2>
             </div>
 
@@ -151,11 +153,11 @@ const App: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
               {/* Entry 1 */}
               <article className="group cursor-pointer">
-                <div className="border-t-2 border-[#1a1a1a] pt-4 mb-4 flex justify-between items-baseline">
+                <div className="border-t-2 border-riso-ink pt-4 mb-4 flex justify-between items-baseline">
                   <span className="text-xs font-black uppercase tracking-widest text-gray-500">Oct 12, 2025</span>
-                  <span className="text-xs font-black uppercase tracking-widest text-[#0055ff] opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-riso-blue opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
                 </div>
-                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-[#ff33cc] transition-colors">
+                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-riso-pink transition-colors">
                   The Death of Flat Design
                 </h3>
                 <p className="font-serif italic text-gray-600 leading-relaxed">
@@ -165,11 +167,11 @@ const App: React.FC = () => {
 
               {/* Entry 2 */}
               <article className="group cursor-pointer">
-                <div className="border-t-2 border-[#1a1a1a] pt-4 mb-4 flex justify-between items-baseline">
+                <div className="border-t-2 border-riso-ink pt-4 mb-4 flex justify-between items-baseline">
                   <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sep 28, 2025</span>
-                  <span className="text-xs font-black uppercase tracking-widest text-[#0055ff] opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-riso-blue opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
                 </div>
-                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-[#ff33cc] transition-colors">
+                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-riso-pink transition-colors">
                   Color Theory for the Colorblind
                 </h3>
                 <p className="font-serif italic text-gray-600 leading-relaxed">
@@ -179,11 +181,11 @@ const App: React.FC = () => {
 
               {/* Entry 3 */}
               <article className="group cursor-pointer">
-                <div className="border-t-2 border-[#1a1a1a] pt-4 mb-4 flex justify-between items-baseline">
+                <div className="border-t-2 border-riso-ink pt-4 mb-4 flex justify-between items-baseline">
                   <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sep 15, 2025</span>
-                  <span className="text-xs font-black uppercase tracking-widest text-[#0055ff] opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-riso-blue opacity-0 group-hover:opacity-100 transition-opacity">Read</span>
                 </div>
-                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-[#ff33cc] transition-colors">
+                <h3 className="text-3xl font-syne font-bold uppercase leading-tight mb-4 group-hover:text-riso-pink transition-colors">
                   Manual Override
                 </h3>
                 <p className="font-serif italic text-gray-600 leading-relaxed">
@@ -194,7 +196,7 @@ const App: React.FC = () => {
             
             {/* View All Button */}
             <div className="mt-20 text-center">
-              <button type="button" aria-disabled="true" className="inline-block px-8 py-4 border-2 border-[#1a1a1a] text-[#1a1a1a] font-syne font-black uppercase text-xs tracking-[0.2em] hover:bg-[#1a1a1a] hover:text-[#f4f1ea] transition-all cursor-not-allowed opacity-60">
+              <button type="button" aria-disabled="true" className="inline-block px-8 py-4 border-2 border-riso-ink text-riso-ink font-syne font-black uppercase text-xs tracking-[0.2em] hover:bg-riso-ink hover:text-riso-paper transition-all cursor-not-allowed opacity-60">
                 View All Entries
               </button>
             </div>
@@ -202,16 +204,16 @@ const App: React.FC = () => {
         </section>
         
         {/* SECTION 8: Final Conversion Narrative (The Manifesto) */}
-        <section className="py-48 md:py-72 bg-[#1a1a1a] text-[#f4f1ea] relative overflow-hidden">
+        <section className="py-48 md:py-72 bg-riso-ink text-riso-paper relative overflow-hidden">
            {/* Cinematic Light Leak Animation */}
            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-radial from-riso-blue/10 to-transparent animate-[pulse_10s_infinite]"></div>
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-radial from-riso-blue/10 to-transparent animate-[riso-pulse_10s_infinite]"></div>
            </div>
 
            <div className="container mx-auto px-6 relative z-10">
               <div className="max-w-6xl mx-auto text-center space-y-16">
                  <div className="space-y-6">
-                    <span className="text-xs uppercase tracking-[0.8em] font-black text-riso-yellow">05 / The Conclusion</span>
+                    <span className="text-xs uppercase tracking-[0.8em] font-black text-riso-yellow">06 / The Conclusion</span>
                     <h2 className="text-5xl font-syne font-black uppercase leading-[0.85] tracking-tighter" style={{ fontSize: 'clamp(3rem, 9vw, 10rem)' }}>
                       Ready to <br /> <span className="text-riso-pink">Reclaim</span> <br /> the Soul?
                     </h2>
@@ -322,7 +324,7 @@ const App: React.FC = () => {
       {/* Global CSS Overrides & Micro-interactions */}
       <style>{`
         /* Architectural Grid Overlay (Subtle) */
-        main::after {
+        #main-content::after {
           content: "";
           position: fixed;
           inset: 0;

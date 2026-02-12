@@ -50,7 +50,7 @@ const Showcase: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [hoveredSlide, setHoveredSlide] = useState<number | null>(null);
   const [scrollHintVisible, setScrollHintVisible] = useState(true);
-  const activeSlideRef = useRef(activeSlide);
+
 
   // Entrance animation via IntersectionObserver
   useEffect(() => {
@@ -88,8 +88,7 @@ const Showcase: React.FC = () => {
     };
   }, []);
 
-  // Sync ref for wheel handler closure
-  useEffect(() => { activeSlideRef.current = activeSlide; }, [activeSlide]);
+
 
   useEffect(() => {
     if (activeSlide > 0) setScrollHintVisible(false);
@@ -104,43 +103,13 @@ const Showcase: React.FC = () => {
     }
   };
 
-  // Wheel → slide navigation (scroll hijack)
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    let lastWheelTime = 0;
-    const COOLDOWN = 350;
-
-    const handleWheel = (e: WheelEvent) => {
-      const rect = section.getBoundingClientRect();
-      const sectionVisible = rect.top < window.innerHeight * 0.5 && rect.bottom > window.innerHeight * 0.3;
-      if (!sectionVisible) return;
-
-      const current = activeSlideRef.current;
-      const isForward = e.deltaY > 0;
-
-      // At boundaries — let page scroll naturally
-      if ((isForward && current >= SLIDES.length - 1) || (!isForward && current <= 0)) return;
-
-      const now = Date.now();
-      if (now - lastWheelTime < COOLDOWN) return; // let page scroll during cooldown
-
-      e.preventDefault();
-      lastWheelTime = now;
-
-      scrollToSlide(isForward ? current + 1 : current - 1);
-    };
-
-    section.addEventListener('wheel', handleWheel, { passive: false });
-    return () => section.removeEventListener('wheel', handleWheel);
-  }, []);
+  // Wheel event listener removed to fix scroll hijacking
 
   return (
     <section
       ref={sectionRef}
       id="process"
-      className="py-24 md:py-48 bg-[#1a1a1a] text-[#f4f1ea] overflow-hidden"
+      className="py-24 md:py-48 bg-riso-ink text-riso-paper overflow-hidden"
     >
       {/* Header */}
       <div className="container mx-auto px-6 mb-20">
@@ -149,7 +118,7 @@ const Showcase: React.FC = () => {
             <span
               className="text-sm uppercase tracking-[0.5em] font-bold mb-4 transition-all duration-700 block"
               style={{
-                color: '#ff33cc',
+                color: 'var(--riso-pink)',
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
               }}
@@ -186,6 +155,7 @@ const Showcase: React.FC = () => {
                   className="relative h-1 bg-white/20 overflow-hidden cursor-pointer transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                   style={{ width: activeSlide === i ? '4rem' : '2rem' }}
                   aria-label={`Go to slide ${i + 1}`}
+                  aria-current={activeSlide === i ? 'step' : undefined}
                 >
                   <div
                     className="absolute inset-0 transition-transform duration-500"
@@ -235,7 +205,7 @@ const Showcase: React.FC = () => {
               style={{ backgroundColor: slide.hex }}
             />
 
-            <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm transition-all duration-500 group-hover:border-[#f4f1ea]/40">
+            <div className="border-2 border-riso-paper/20 p-4 md:p-12 space-y-12 backdrop-blur-sm transition-all duration-500 group-hover:border-riso-paper/40">
               {/* Slide number + accent line */}
               <div className="flex justify-between items-start">
                 <span
@@ -327,7 +297,7 @@ const Showcase: React.FC = () => {
           <div
             className="h-full transition-transform duration-150 origin-left"
             style={{
-              backgroundColor: '#ff33cc',
+              backgroundColor: 'var(--riso-pink)',
               transform: `scaleX(${scrollProgress})`,
             }}
           />
@@ -336,7 +306,7 @@ const Showcase: React.FC = () => {
 
       {/* Decorative Text Loop at bottom */}
       <div className="w-full overflow-hidden py-12 border-t border-white/10 mt-12">
-        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite] showcase-marquee">
+        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite] showcase-marquee will-change-transform">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <span
               key={i}

@@ -37,5 +37,10 @@ lerna-debug.log*
 # Cache
 .cache
 
+# Screenshots & images (debug artifacts)
+*.png
+*.jpg
+*.jpeg
+
 # System
 .sisyphus
