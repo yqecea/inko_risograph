@@ -74,8 +74,8 @@ const Hero: React.FC = () => {
             {/* Blue Misalignment Layer */}
             <span 
               aria-hidden="true"
-              className="text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-blue mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
-              style={{ transform: `translate(${mousePos.x * -35 - 8}px, ${mousePos.y * -35 + 8}px)` }}
+              className="text-5xl sm:text-7xl font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-blue mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
+              style={{ fontSize: 'clamp(3rem, 12vw, 14rem)', transform: `translate(${mousePos.x * -35 - 8}px, ${mousePos.y * -35 + 8}px)` }}
             >
               Raw <br /> Energy.
             </span>
@@ -83,17 +83,19 @@ const Hero: React.FC = () => {
             {/* Pink Misalignment Layer */}
             <span 
               aria-hidden="true"
-              className="text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-pink mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
-              style={{ transform: `translate(${mousePos.x * 35 + 8}px, ${mousePos.y * 35 - 8}px)` }}
+              className="text-5xl sm:text-7xl font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-pink mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
+              style={{ fontSize: 'clamp(3rem, 12vw, 14rem)', transform: `translate(${mousePos.x * 35 + 8}px, ${mousePos.y * 35 - 8}px)` }}
             >
               Raw <br /> Energy.
             </span>
 
             {/* Main Typographic Anchor */}
             <h1 
-              className={`text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter relative text-riso-ink transition-all duration-1000 ${
+              id="page-title"
+              className={`text-5xl sm:text-7xl font-syne font-black leading-[0.8] uppercase tracking-tighter relative text-riso-ink transition-all duration-1000 ${
                 isMounted ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
               }`}
+              style={{ fontSize: 'clamp(3rem, 12vw, 14rem)' }}
             >
               Raw <br /> Energy.
             </h1>

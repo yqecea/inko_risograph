@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 // Fix: Corrected import source for ColorPalette from '../constants' to '../types'
 import { FEATURES } from '../constants';
-import { ColorPalette } from '../types';
 
 /**
  * @interface TechnicalMetric
@@ -85,7 +84,7 @@ const FeatureGrid: React.FC = () => {
         />
 
         {/* Technical Calibration Sidebar (Editorial Layout Pattern) */}
-        <div className="absolute right-12 top-1/4 hidden lg:flex flex-col space-y-16 items-end">
+        <div className="absolute right-4 top-1/4 max-w-[140px] hidden xl:flex flex-col space-y-16 items-end">
           {metrics.map((metric, idx) => (
             <div 
               key={metric.label} 
@@ -117,23 +116,26 @@ const FeatureGrid: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
           <div className="lg:col-span-8 space-y-8">
             <div className="overflow-hidden">
-              <h2 
-                className="text-xs uppercase tracking-[0.6em] font-black text-riso-blue transition-transform duration-700 ease-out"
+              <span 
+                className="block text-xs uppercase tracking-[0.6em] font-black text-riso-blue transition-transform duration-700 ease-out"
                 style={{ transform: `translateY(${(1 - scrollProgress) * 100}%)` }}
               >
                 01 / THE CAPABILITIES
-              </h2>
+              </span>
             </div>
-            <h3 className="text-5xl md:text-[11rem] font-syne font-black uppercase leading-[0.8] tracking-tighter">
+            <h2 
+              className="text-5xl font-syne font-black uppercase leading-[0.8] tracking-tighter"
+              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
+            >
               A Better <br /> 
               <span className="text-riso-pink italic font-serif normal-case tracking-normal">Type</span> <br /> 
               of <span className="text-riso-blue relative">
                 Output.
                 <div className="absolute -bottom-4 left-0 w-full h-8 bg-riso-yellow/30 -z-10 -rotate-2"></div>
               </span>
-            </h3>
+            </h2>
           </div>
-          <div className="lg:col-span-4 max-w-sm pb-8">
+          <div className="lg:col-span-3 max-w-sm pb-8">
             <div className="border-l-4 border-riso-ink pl-8 space-y-6">
               <p className="text-xl font-serif italic text-gray-700 leading-relaxed">
                 "We don't just render data; we give it weight. Every insight processed by Inko carries the tactile history of the physical press, ensuring your decisions are grounded in visual authority."
@@ -152,18 +154,23 @@ const FeatureGrid: React.FC = () => {
       {/* Grid of Features: Kinetic Interaction Zone */}
       <div className="container mx-auto px-6 relative z-30">
         <div className="feature-grid-items grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-0 border-t-4 border-riso-ink">
-          {FEATURES.map((feature, idx) => (
+          {FEATURES.map((feature) => (
             <div 
               key={feature.id} 
+              tabIndex={0}
+              role="group"
+              aria-label={feature.title}
               onMouseEnter={() => setActiveFeature(feature.id)}
               onMouseLeave={() => setActiveFeature(null)}
-              className={`group relative py-16 px-8 border-b-4 border-riso-ink lg:border-b-0 lg:border-r-4 last:border-r-0 transition-all duration-500 overflow-hidden cursor-crosshair ${
+              onFocus={() => setActiveFeature(feature.id)}
+              onBlur={() => setActiveFeature(null)}
+              className={`group relative py-16 px-8 border-b-4 border-riso-ink lg:border-b-0 lg:border-r-4 last:border-r-0 transition-all duration-500 cursor-pointer ${
                 activeFeature === feature.id ? 'bg-[#1a1a1a] text-[#f4f1ea]' : 'bg-white'
               }`}
             >
               {/* Dynamic Background Texture (Signature Motif) */}
               <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 halftone-bg"
+                className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 halftone-bg overflow-hidden"
                 style={{ color: feature.color }}
               ></div>
 
@@ -245,7 +252,7 @@ const FeatureGrid: React.FC = () => {
       </div>
 
       {/* Signature Section Break: Diagonal Tension Layer */}
-      <div className="absolute -bottom-32 left-0 w-full h-64 bg-riso-ink -rotate-2 origin-left z-40 flex items-center overflow-hidden">
+      <div className="absolute -bottom-16 left-0 w-full h-64 bg-riso-ink -rotate-2 origin-left z-10 flex items-center overflow-hidden">
         <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]">
           {[1,2,3].map(i => (
             <span key={i} className="text-[12rem] font-syne font-black uppercase tracking-tighter mx-12 text-[#f4f1ea] opacity-10 italic">
