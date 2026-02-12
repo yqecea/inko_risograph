@@ -10,6 +10,8 @@
     <meta property="og:description" content="Where data bleeds, textures communicate, and every insight carries physical weight.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://inko.web.app">
+    <meta property="og:image" content="https://inko.web.app/og-image.png">
+    <meta name="twitter:image" content="https://inko.web.app/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="INKO | The Risograph SaaS">
     <meta name="twitter:description" content="Where data bleeds, textures communicate, and every insight carries physical weight.">
@@ -19,6 +21,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         :root {
             --riso-paper: #f4f1ea;
             --riso-ink: #1a1a1a;
@@ -38,6 +43,32 @@
 
         .font-serif { font-family: 'Instrument Serif', serif; }
         .font-syne { font-family: 'Syne', sans-serif; }
+
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .skip-link:focus {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            width: auto;
+            height: auto;
+            padding: 0.75rem 1.5rem;
+            background: var(--riso-ink);
+            color: var(--riso-paper);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.875rem;
+            z-index: 10000;
+            text-decoration: none;
+        }
 
         /* Custom selection to match Riso aesthetic */
         ::selection {
@@ -126,6 +157,14 @@
             scrollbar-width: none;
         }
 
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         .outline-text {
             -webkit-text-stroke: 1px rgba(244, 241, 234, 0.3);
             color: transparent;
@@ -150,8 +189,10 @@
   }
 }
 </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🖨</text></svg>" type="image/svg+xml">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Global SVG Filters for Risograph Effects -->
     <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
         <pattern id="halftone" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
