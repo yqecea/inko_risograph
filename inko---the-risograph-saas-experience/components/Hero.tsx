@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
         aria-hidden="true"
       >
         <div 
-          className="text-[45vw] font-syne font-black leading-none uppercase tracking-tighter text-riso-ink/[0.02] transform transition-transform duration-1000 ease-out"
+          className="text-[45vw] font-syne font-black leading-none uppercase tracking-tighter text-[#1a1a1a]/[0.02] transform transition-transform duration-1000 ease-out"
           style={{ transform: `scale(${1 + Math.abs(mousePos.x) * 0.1})` }}
         >
           INKO
@@ -72,22 +72,20 @@ const Hero: React.FC = () => {
           {/* Headline: The Signature Visual Moment */}
           <div className="relative mb-24 cursor-default">
             {/* Blue Misalignment Layer */}
-            <span 
-              aria-hidden="true"
+            <h1 
               className="text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-blue mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
               style={{ transform: `translate(${mousePos.x * -35 - 8}px, ${mousePos.y * -35 + 8}px)` }}
             >
               Raw <br /> Energy.
-            </span>
+            </h1>
             
             {/* Pink Misalignment Layer */}
-            <span 
-              aria-hidden="true"
+            <h1 
               className="text-5xl sm:text-7xl md:text-[14rem] font-syne font-black leading-[0.8] uppercase tracking-tighter absolute top-0 left-0 text-riso-pink mix-blend-multiply opacity-60 blur-[1px] transition-transform duration-75 ease-linear"
               style={{ transform: `translate(${mousePos.x * 35 + 8}px, ${mousePos.y * 35 - 8}px)` }}
             >
               Raw <br /> Energy.
-            </span>
+            </h1>
 
             {/* Main Typographic Anchor */}
             <h1 
@@ -140,6 +138,15 @@ const Hero: React.FC = () => {
           <div className="absolute top-0 left-0 w-full h-1/2 bg-riso-pink animate-[scroll-shuttle_2.5s_infinite]"></div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes scroll-shuttle {
+          0% { transform: translateY(-100%); }
+          50% { transform: translateY(100%); }
+          50.1% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+      `}</style>
     </section>
   );
 };

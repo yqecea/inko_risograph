@@ -93,11 +93,7 @@ const ShowcaseSectionExtended: React.FC = () => {
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Ink Viscosity</label>
             <div className="flex items-center space-x-4">
-               <input 
-                 type="range" 
-                 aria-label="Adjust ink viscosity"
-                 className="w-full h-1 bg-gray-100 appearance-none rounded-full accent-riso-ink" 
-               />
+               <input type="range" className="w-full h-1 bg-gray-100 appearance-none rounded-full accent-riso-ink" />
                <span className="text-xs font-bold font-mono">0.85</span>
             </div>
           </div>

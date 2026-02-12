@@ -4,10 +4,30 @@ import React, { useRef, useEffect } from 'react';
 const Showcase: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
+    const handleWheel = (e: WheelEvent) => {
+      if (window.innerWidth < 1024) return;
+      
+      // If we're inside the showcase, intercept vertical scroll and make it horizontal
+      const rect = container.getBoundingClientRect();
+      if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
+        if ((e.deltaY > 0 && container.scrollLeft < container.scrollWidth - container.clientWidth) ||
+            (e.deltaY < 0 && container.scrollLeft > 0)) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY;
+        }
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
 
   return (
-    <section id="process" className="py-24 md:py-48 bg-riso-ink text-riso-paper overflow-hidden">
+    <section id="process" className="py-24 md:py-48 bg-[#1a1a1a] text-[#f4f1ea] overflow-hidden">
       <div className="container mx-auto px-6 mb-20">
         <h2 className="text-sm uppercase tracking-[0.5em] font-bold text-riso-pink mb-4">02 / The Process</h2>
         <h3 className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter">
@@ -18,12 +38,12 @@ const Showcase: React.FC = () => {
       {/* Horizontal Scroll Area */}
       <div 
         ref={scrollContainerRef}
-        className="flex overflow-x-auto space-x-6 md:space-x-12 px-6 pb-20 scrollbar-hide no-scrollbar snap-x snap-mandatory"
+        className="flex overflow-x-auto lg:overflow-x-hidden space-x-6 md:space-x-12 px-6 pb-20 scrollbar-hide no-scrollbar snap-x snap-mandatory lg:snap-none"
       >
         {/* Slide 1 */}
         <div className="flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start">
           <div className="absolute inset-0 bg-riso-blue mix-blend-screen opacity-10 transition-opacity group-hover:opacity-20"></div>
-          <div className="border-2 border-riso-paper/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
+          <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
              <div className="flex justify-between items-start">
                <span className="text-6xl font-syne font-black text-riso-blue">01</span>
                <div className="w-24 h-[1px] bg-riso-blue mt-8"></div>
@@ -43,7 +63,7 @@ const Showcase: React.FC = () => {
                </div>
                <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-blue/50 transition-colors">
                   <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                  <img src="https://picsum.photos/seed/ink1/800/450" width={800} height={450} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" fill="%23e5e2db"><rect width="800" height="450"/><text x="400" y="225" text-anchor="middle" fill="%231a1a1a" font-size="20">Image unavailable</text></svg>'; }} className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 1" />
+                  <img src="https://picsum.photos/seed/ink1/800/450" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 1" />
                   <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">LDR_PROC_INIT.exe</div>
                </div>
              </div>
@@ -53,7 +73,7 @@ const Showcase: React.FC = () => {
         {/* Slide 2 */}
         <div className="flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start">
           <div className="absolute inset-0 bg-riso-pink mix-blend-screen opacity-10 transition-opacity group-hover:opacity-20"></div>
-          <div className="border-2 border-riso-paper/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
+          <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
              <div className="flex justify-between items-start">
                <span className="text-6xl font-syne font-black text-riso-pink">02</span>
                <div className="w-24 h-[1px] bg-riso-pink mt-8"></div>
@@ -73,7 +93,7 @@ const Showcase: React.FC = () => {
                </div>
                <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-pink/50 transition-colors">
                   <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                  <img src="https://picsum.photos/seed/ink2/800/450" width={800} height={450} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" fill="%23e5e2db"><rect width="800" height="450"/><text x="400" y="225" text-anchor="middle" fill="%231a1a1a" font-size="20">Image unavailable</text></svg>'; }} className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 2" />
+                  <img src="https://picsum.photos/seed/ink2/800/450" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 2" />
                   <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">RGB_CMYK_XFORM.dll</div>
                </div>
              </div>
@@ -83,7 +103,7 @@ const Showcase: React.FC = () => {
         {/* Slide 3 */}
         <div className="flex-shrink-0 w-[85vw] md:w-full max-w-4xl relative group snap-start">
           <div className="absolute inset-0 bg-riso-yellow mix-blend-screen opacity-10 transition-opacity group-hover:opacity-20"></div>
-          <div className="border-2 border-riso-paper/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
+          <div className="border-2 border-[#f4f1ea]/20 p-4 md:p-12 space-y-12 backdrop-blur-sm">
              <div className="flex justify-between items-start">
                <span className="text-6xl font-syne font-black text-riso-yellow">03</span>
                <div className="w-24 h-[1px] bg-riso-yellow mt-8"></div>
@@ -103,7 +123,7 @@ const Showcase: React.FC = () => {
                </div>
                <div className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 group-hover:border-riso-yellow/50 transition-colors">
                   <div className="absolute inset-0 halftone-bg text-black opacity-40"></div>
-                  <img src="https://picsum.photos/seed/ink3/800/450" width={800} height={450} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" fill="%23e5e2db"><rect width="800" height="450"/><text x="400" y="225" text-anchor="middle" fill="%231a1a1a" font-size="20">Image unavailable</text></svg>'; }} className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 3" />
+                  <img src="https://picsum.photos/seed/ink3/800/450" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Process 3" />
                   <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">FINAL_PULL_OUTPUT.bin</div>
                </div>
              </div>

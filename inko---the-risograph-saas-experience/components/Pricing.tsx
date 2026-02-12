@@ -4,11 +4,11 @@ import { PRICING_PLANS } from '../constants';
 
 const Pricing: React.FC = () => {
   return (
-    <section id="pricing" className="py-24 md:py-48 bg-riso-ink relative overflow-hidden">
+    <section id="pricing" className="py-24 md:py-48 bg-[#1a1a1a] relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-24">
            <h2 className="text-sm uppercase tracking-[0.5em] font-bold text-riso-yellow mb-6">04 / The Investment</h2>
-           <h3 className="text-5xl md:text-8xl font-syne font-black uppercase tracking-tighter leading-none text-riso-paper">
+           <h3 className="text-5xl md:text-8xl font-syne font-black uppercase tracking-tighter leading-none text-[#f4f1ea]">
              Choose <br /> Your <br /> <span className="text-riso-blue">Density.</span>
            </h3>
         </div>
@@ -31,7 +31,7 @@ const Pricing: React.FC = () => {
                     {plan.name}
                   </span>
                   <div className="flex items-baseline">
-                    <span className="text-5xl font-syne font-black text-riso-paper">${plan.price}</span>
+                    <span className="text-5xl font-syne font-black text-[#f4f1ea]">${plan.price}</span>
                     <span className="text-xs text-gray-500 uppercase font-bold ml-2">/ month</span>
                   </div>
                 </div>
@@ -72,7 +72,7 @@ const Pricing: React.FC = () => {
           <p className="text-gray-500 font-serif italic text-lg mb-8">
             "Questions about our proprietary ink-delivery methods?"
           </p>
-          <a href="#" className="inline-block text-riso-blue font-syne text-sm uppercase tracking-widest font-bold border-b-4 border-riso-blue pb-2 hover:text-riso-paper transition-colors">
+          <a href="#" className="inline-block text-riso-blue font-syne text-sm uppercase tracking-widest font-bold border-b-4 border-riso-blue pb-2 hover:text-[#f4f1ea] transition-colors">
             Consult the Archivist →
           </a>
         </div>
@@ -89,7 +89,7 @@ const Pricing: React.FC = () => {
             transform: translate(16px, 16px);
           }
           .group:hover > .pricing-card {
-            background-color: var(--riso-ink);
+            background-color: #1a1a1a;
           }
         }
       `}</style>

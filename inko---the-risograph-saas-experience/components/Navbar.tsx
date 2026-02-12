@@ -31,17 +31,17 @@ const Navbar: React.FC = () => {
     <>
       <nav 
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-          scrolled ? 'py-4 bg-riso-paper/90 backdrop-blur-sm border-b-2 border-riso-ink' : 'py-8 bg-transparent'
+          scrolled ? 'py-4 bg-[#f4f1ea]/90 backdrop-blur-sm border-b-2 border-[#1a1a1a]' : 'py-8 bg-transparent'
         }`}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Logo Section */}
           <div className="relative group cursor-pointer z-[110]">
-            <div className="absolute inset-0 bg-riso-pink translate-x-1 -translate-y-1 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="absolute inset-0 bg-riso-blue -translate-x-1 translate-y-1 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <span className="text-3xl font-syne font-black tracking-tighter uppercase relative z-10 transition-transform duration-300 group-hover:scale-105">
-              Inko<span className="text-riso-pink">.</span>
-            </span>
+            <div className="absolute inset-0 bg-[#ff33cc] translate-x-1 -translate-y-1 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-[#0055ff] -translate-x-1 translate-y-1 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <h1 className="text-3xl font-syne font-black tracking-tighter uppercase relative z-10 transition-transform duration-300 group-hover:scale-105">
+              Inko<span className="text-[#ff33cc]">.</span>
+            </h1>
           </div>
 
           {/* Desktop Links */}
@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
                 <span className="relative z-10 block transition-transform duration-500 group-hover:-translate-y-full">
                   {link.label}
                 </span>
-                <span className="absolute top-0 left-0 z-10 block transition-transform duration-500 translate-y-full group-hover:translate-y-0 text-riso-pink">
+                <span className="absolute top-0 left-0 z-10 block transition-transform duration-500 translate-y-full group-hover:translate-y-0 text-[#ff33cc]">
                   {link.label}
                 </span>
               </a>
@@ -63,8 +63,8 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop CTA */}
-          <button className="hidden md:block group relative px-6 py-2 bg-riso-ink text-riso-paper font-syne text-xs uppercase tracking-widest overflow-hidden border-2 border-transparent hover:border-riso-pink transition-colors duration-300">
-            <div className="absolute inset-0 w-0 bg-riso-pink transition-all duration-300 group-hover:w-full"></div>
+          <button className="hidden md:block group relative px-6 py-2 bg-[#1a1a1a] text-[#f4f1ea] font-syne text-xs uppercase tracking-widest overflow-hidden border-2 border-transparent hover:border-[#ff33cc] transition-colors duration-300">
+            <div className="absolute inset-0 w-0 bg-[#ff33cc] transition-all duration-300 group-hover:w-full"></div>
             <span className="relative z-10 group-hover:text-white font-bold transition-colors">Request Access</span>
           </button>
 
@@ -74,16 +74,16 @@ const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <span className={`w-8 h-0.5 bg-riso-ink transition-all duration-300 origin-center ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-            <span className={`w-8 h-0.5 bg-riso-ink transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`w-8 h-0.5 bg-riso-ink transition-all duration-300 origin-center ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+            <span className={`w-8 h-0.5 bg-[#1a1a1a] transition-all duration-300 origin-center ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`w-8 h-0.5 bg-[#1a1a1a] transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-8 h-0.5 bg-[#1a1a1a] transition-all duration-300 origin-center ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 z-[105] bg-riso-paper flex flex-col justify-center items-center transition-all duration-500 ${
+        className={`fixed inset-0 z-[105] bg-[#f4f1ea] flex flex-col justify-center items-center transition-all duration-500 ${
           mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
       >
@@ -101,15 +101,15 @@ const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <span className="block text-4xl md:text-6xl font-syne font-black uppercase tracking-tighter text-riso-ink transition-colors duration-300 group-hover:text-riso-pink">
+              <span className="block text-4xl md:text-6xl font-syne font-black uppercase tracking-tighter text-[#1a1a1a] transition-colors duration-300 group-hover:text-[#ff33cc]">
                 {link.label}
               </span>
             </a>
           ))}
           
           <div className={`pt-8 transition-all duration-500 delay-300 transform ${mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-             <button className="group relative px-8 py-3 bg-riso-ink text-riso-paper font-syne text-sm uppercase tracking-widest overflow-hidden border-2 border-riso-ink">
-              <div className="absolute inset-0 w-0 bg-riso-blue transition-all duration-300 group-hover:w-full"></div>
+             <button className="group relative px-8 py-3 bg-[#1a1a1a] text-[#f4f1ea] font-syne text-sm uppercase tracking-widest overflow-hidden border-2 border-[#1a1a1a]">
+              <div className="absolute inset-0 w-0 bg-[#0055ff] transition-all duration-300 group-hover:w-full"></div>
               <span className="relative z-10 group-hover:text-white font-bold transition-colors">Request Access</span>
             </button>
           </div>
@@ -117,7 +117,7 @@ const Navbar: React.FC = () => {
 
         {/* Decorative Elements */}
         <div className="absolute bottom-10 left-0 w-full text-center">
-          <p className="font-syne text-[10px] uppercase tracking-[0.4em] text-riso-ink/50">
+          <p className="font-syne text-[10px] uppercase tracking-[0.4em] text-[#1a1a1a]/50">
             Inko Risograph SaaS
           </p>
         </div>
