@@ -114,7 +114,7 @@ const FeatureGrid: React.FC = () => {
       {/* Header Area: Eye-Path Engineered Entry Point */}
       <div className="container mx-auto px-6 mb-32 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-          <div className="lg:col-span-8 space-y-8">
+          <div className="lg:col-span-8 space-y-8 overflow-hidden">
             <div className="overflow-hidden">
               <span 
                 className="block text-xs uppercase tracking-[0.6em] font-black text-riso-blue transition-transform duration-700 ease-out"
@@ -125,7 +125,7 @@ const FeatureGrid: React.FC = () => {
             </div>
             <h2 
               className="text-5xl font-syne font-black uppercase leading-[0.85] tracking-tighter"
-              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)' }}
             >
               A Better <br /> 
               <span className="text-riso-pink italic font-serif normal-case tracking-normal">Type</span> <br /> 
