@@ -11,6 +11,7 @@ const SLIDES = [
     features: ['Real-time ingestion', 'Pattern sensitivity 99.4%', 'Noise reduction filters'],
     imgSeed: 'ink1',
     filename: 'LDR_PROC_INIT.exe',
+    altText: 'Data emulsion process visualization',
   },
   {
     num: '02',
@@ -21,6 +22,7 @@ const SLIDES = [
     features: ['Dual-layer blending', 'Chromatic analysis', 'Contextual overlapping'],
     imgSeed: 'ink2',
     filename: 'RGB_CMYK_XFORM.dll',
+    altText: 'Multi-pass ink mixing analysis',
   },
   {
     num: '03',
@@ -31,13 +33,14 @@ const SLIDES = [
     features: ['High-res PDF export', 'Tactile UI elements', 'Collaborative proofing'],
     imgSeed: 'ink3',
     filename: 'FINAL_PULL_OUTPUT.bin',
+    altText: 'Final high-fidelity output pull',
   },
 ];
 
 /**
  * Showcase — "Layered Intelligence" horizontal scroll section.
- * Desktop: scroll-hijack converts vertical wheel → horizontal slide navigation.
- * Mobile: native horizontal swipe with snap points.
+ * Desktop: Click/swipe carousel with snap points.
+ * Mobile: Native horizontal swipe with snap points.
  */
 const Showcase: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -45,6 +48,7 @@ const Showcase: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [hoveredSlide, setHoveredSlide] = useState<number | null>(null);
 
   // Entrance animation via IntersectionObserver
   useEffect(() => {
@@ -58,41 +62,27 @@ const Showcase: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Scroll hijack (desktop) + active slide tracking + progress
+  // Active slide tracking + progress
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const updateActiveSlide = () => {
+    const handleScroll = () => {
       const { scrollLeft, scrollWidth, clientWidth } = container;
       const maxScroll = scrollWidth - clientWidth;
       if (maxScroll <= 0) return;
+      
       setScrollProgress(scrollLeft / maxScroll);
       const idx = Math.round((scrollLeft / maxScroll) * (SLIDES.length - 1));
       setActiveSlide(Math.min(idx, SLIDES.length - 1));
     };
 
-    const handleWheel = (e: WheelEvent) => {
-      if (window.innerWidth < 1024) return;
-      const rect = container.getBoundingClientRect();
-      if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
-        const maxScroll = container.scrollWidth - container.clientWidth;
-        if (
-          (e.deltaY > 0 && container.scrollLeft < maxScroll) ||
-          (e.deltaY < 0 && container.scrollLeft > 0)
-        ) {
-          e.preventDefault();
-          container.scrollLeft += e.deltaY * 1.5;
-          updateActiveSlide();
-        }
-      }
-    };
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    // Initialize
+    handleScroll();
 
-    container.addEventListener('scroll', updateActiveSlide, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: false });
     return () => {
-      container.removeEventListener('scroll', updateActiveSlide);
-      window.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -114,8 +104,8 @@ const Showcase: React.FC = () => {
       <div className="container mx-auto px-6 mb-20">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
-            <h2
-              className="text-sm uppercase tracking-[0.5em] font-bold mb-4 transition-all duration-700"
+            <span
+              className="text-sm uppercase tracking-[0.5em] font-bold mb-4 transition-all duration-700 block"
               style={{
                 color: '#ff33cc',
                 opacity: isVisible ? 1 : 0,
@@ -123,8 +113,8 @@ const Showcase: React.FC = () => {
               }}
             >
               02 / The Process
-            </h2>
-            <h3
+            </span>
+            <h2
               className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter transition-all duration-700"
               style={{
                 opacity: isVisible ? 1 : 0,
@@ -133,7 +123,7 @@ const Showcase: React.FC = () => {
               }}
             >
               Layered <br /> Intelligence.
-            </h3>
+            </h2>
           </div>
 
           {/* Slide indicators — desktop only */}
@@ -142,7 +132,7 @@ const Showcase: React.FC = () => {
               <button
                 key={slide.num}
                 onClick={() => scrollToSlide(i)}
-                className="relative h-1 bg-white/20 overflow-hidden cursor-pointer transition-all duration-300"
+                className="relative h-1 bg-white/20 overflow-hidden cursor-pointer transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 style={{ width: activeSlide === i ? '4rem' : '2rem' }}
                 aria-label={`Go to slide ${i + 1}`}
               >
@@ -163,7 +153,7 @@ const Showcase: React.FC = () => {
       {/* Horizontal Scroll Area */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto lg:overflow-x-hidden space-x-6 md:space-x-12 px-6 pb-20 scrollbar-hide no-scrollbar snap-x snap-mandatory lg:snap-none"
+        className="flex overflow-x-auto space-x-6 md:space-x-12 px-6 pb-20 no-scrollbar snap-x snap-mandatory"
       >
         {SLIDES.map((slide, i) => (
           <div
@@ -205,7 +195,7 @@ const Showcase: React.FC = () => {
                   <h4 className="text-3xl font-syne font-bold uppercase transition-transform duration-500 group-hover:translate-x-2">
                     {slide.title}
                   </h4>
-                  <p className="text-gray-400 leading-relaxed font-medium">
+                  <p className="text-gray-300 leading-relaxed font-medium">
                     {slide.description}
                   </p>
                   <ul
@@ -227,29 +217,26 @@ const Showcase: React.FC = () => {
                 {/* Image panel */}
                 <div
                   className="relative aspect-video bg-[#2a2a2a] overflow-hidden border border-white/10 transition-all duration-500"
-                  style={{ borderColor: undefined }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = `${slide.hex}80`;
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.1)';
-                  }}
+                  style={{ borderColor: hoveredSlide === i ? `${slide.hex}80` : 'rgba(255,255,255,0.1)' }}
+                  onMouseEnter={() => setHoveredSlide(i)}
+                  onMouseLeave={() => setHoveredSlide(null)}
                 >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#2a2a2a] via-[#3a3a3a] to-[#2a2a2a] bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite]" />
                   <div className="absolute inset-0 halftone-bg text-black opacity-40" />
                   <img
                     src={`https://picsum.photos/seed/${slide.imgSeed}/800/450`}
                     width="800"
                     height="450"
                     loading="lazy"
-                    className="w-full h-full object-cover mix-blend-multiply opacity-80 transition-transform duration-700 group-hover:scale-105"
-                    alt={`Process ${i + 1}`}
+                    className="w-full h-full object-cover mix-blend-multiply opacity-80 transition-transform duration-700 group-hover:scale-105 relative z-10"
+                    alt={slide.altText}
                   />
                   {/* Color flash overlay on hover */}
                   <div
-                    className="absolute inset-0 mix-blend-multiply opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+                    className="absolute inset-0 mix-blend-multiply opacity-0 group-hover:opacity-30 transition-opacity duration-500 z-20"
                     style={{ backgroundColor: slide.hex }}
                   />
-                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50">
+                  <div className="absolute bottom-4 left-4 text-[10px] font-mono opacity-50 z-20">
                     {slide.filename}
                   </div>
                 </div>
@@ -274,7 +261,7 @@ const Showcase: React.FC = () => {
 
       {/* Decorative Text Loop at bottom */}
       <div className="w-full overflow-hidden py-12 border-t border-white/10 mt-12">
-        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]">
+        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite] showcase-marquee">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <span
               key={i}
@@ -287,10 +274,15 @@ const Showcase: React.FC = () => {
       </div>
 
       <style>{`
-        .showcase-slide {
-          will-change: transform, opacity;
+        @media (prefers-reduced-motion: reduce) {
+          .showcase-marquee { animation: none !important; }
+        }
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
         }
         .showcase-slide:hover {
+          will-change: transform, opacity;
           box-shadow: 0 0 60px -15px rgba(255, 51, 204, 0.15);
         }
       `}</style>
