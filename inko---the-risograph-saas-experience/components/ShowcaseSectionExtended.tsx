@@ -26,6 +26,7 @@ const ShowcaseSectionExtended: React.FC = () => {
   });
 
   const [scrolledAmount, setScrolledAmount] = useState(0);
+  const [hasEntered, setHasEntered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const ShowcaseSectionExtended: React.FC = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setPrintState(prev => ({ ...prev, isActive: true }));
+            setHasEntered(true);
           } else {
             setPrintState(prev => ({ ...prev, isActive: false }));
           }
@@ -68,9 +70,21 @@ const ShowcaseSectionExtended: React.FC = () => {
     <div 
       ref={containerRef}
       className="relative w-full max-w-5xl mx-auto my-16 md:my-48 p-4 md:p-12 border-4 border-riso-ink bg-white overflow-hidden"
+      style={{ 
+        opacity: hasEntered ? 1 : 0, 
+        transform: hasEntered ? 'translateY(0)' : 'translateY(40px)', 
+        transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)' 
+      }}
     >
       {/* Header of the Simulation */}
-      <div className="flex justify-between items-center mb-6 md:mb-12 border-b-2 border-riso-ink pb-6">
+      <div 
+        className="flex justify-between items-center mb-6 md:mb-12 border-b-2 border-riso-ink pb-6"
+        style={{ 
+          opacity: hasEntered ? 1 : 0, 
+          transform: hasEntered ? 'translateY(0)' : 'translateY(20px)', 
+          transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s' 
+        }}
+      >
         <div>
           <h4 className="text-2xl font-syne font-black uppercase">Engine Status: Operational</h4>
           <p className="text-[10px] font-mono opacity-50 uppercase tracking-widest">Model_GR_Digital_Core_v4.2</p>
@@ -87,19 +101,34 @@ const ShowcaseSectionExtended: React.FC = () => {
       </div>
 
       {/* Main Simulation Area */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+      <div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start"
+        style={{ 
+          opacity: hasEntered ? 1 : 0, 
+          transform: hasEntered ? 'translateY(0)' : 'translateY(20px)', 
+          transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s' 
+        }}
+      >
         {/* Control Column */}
         <div className="space-y-8">
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Ink Viscosity</label>
+            <label className="text-[10px] font-black uppercase tracking-widest text-gray-600">Ink Viscosity</label>
             <div className="flex items-center space-x-4">
-               <input type="range" aria-label="Ink viscosity control" className="w-full h-1 bg-gray-100 appearance-none rounded-full accent-riso-ink" />
-               <span className="text-xs font-bold font-mono">0.85</span>
+               <input 
+                 type="range" 
+                 min="0" 
+                 max="100" 
+                 value={Math.round(printState.pressure * 100)} 
+                 onChange={(e) => setPrintState(prev => ({ ...prev, pressure: Number(e.target.value) / 100 }))} 
+                 aria-label="Ink viscosity control" 
+                 className="w-full h-1 bg-gray-100 appearance-none rounded-full accent-riso-ink" 
+               />
+               <span className="text-xs font-bold font-mono">{printState.pressure.toFixed(2)}</span>
             </div>
           </div>
           
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Plate Alignment</label>
+            <label className="text-[10px] font-black uppercase tracking-widest text-gray-600">Plate Alignment</label>
             <div className="flex gap-2">
               {[1, 2, 3, 4].map(i => (
                 <div key={i} className={`flex-1 h-8 border-2 border-riso-ink flex items-center justify-center text-[11px] font-bold ${i === 2 ? 'bg-riso-yellow' : ''}`}>

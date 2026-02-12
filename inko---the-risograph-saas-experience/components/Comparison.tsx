@@ -7,10 +7,10 @@ const Comparison: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-24">
-            <h2 className="text-sm uppercase tracking-[0.5em] font-bold text-riso-green mb-6">03 / Technical Specs</h2>
-            <h3 className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter leading-none">
+            <span className="text-sm uppercase tracking-[0.5em] font-bold text-riso-green mb-6 block">03 / Technical Specs</span>
+            <h2 className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter leading-none">
               The Ledger <br /> of <span className="text-riso-blue italic font-serif normal-case">Superiority.</span>
-            </h3>
+            </h2>
           </div>
 
           {/* Ledger Table */}
@@ -69,10 +69,18 @@ const Comparison: React.FC = () => {
 
           <div className="mt-12 flex items-center justify-center space-x-8 opacity-40 grayscale group hover:grayscale-0 transition-all">
             <span className="text-xs uppercase tracking-widest font-black">Trusted By:</span>
-            <div className="w-12 h-12 bg-riso-ink rounded-full"></div>
-            <div className="w-24 h-8 bg-riso-ink"></div>
-            <div className="w-16 h-10 bg-riso-ink -rotate-6"></div>
-            <div className="w-20 h-8 bg-riso-ink"></div>
+            <div className="w-12 h-12 bg-riso-ink rounded-full flex items-center justify-center" aria-label="Partner company logo placeholder">
+              <span className="text-[8px] text-white font-black uppercase">LOGO</span>
+            </div>
+            <div className="w-24 h-8 bg-riso-ink flex items-center justify-center" aria-label="Partner company logo placeholder">
+              <span className="text-[8px] text-white font-black uppercase">PARTNER</span>
+            </div>
+            <div className="w-16 h-10 bg-riso-ink -rotate-6 flex items-center justify-center" aria-label="Partner company logo placeholder">
+              <span className="text-[8px] text-white font-black uppercase">STUDIO</span>
+            </div>
+            <div className="w-20 h-8 bg-riso-ink flex items-center justify-center" aria-label="Partner company logo placeholder">
+              <span className="text-[8px] text-white font-black uppercase">AGENCY</span>
+            </div>
           </div>
         </div>
       </div>
