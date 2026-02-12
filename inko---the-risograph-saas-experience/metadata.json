@@ -1,0 +1,8 @@
+
+{
+  "name": "INKO - The Risograph SaaS Experience",
+  "description": "A high-end, Awwwards-inspired SaaS landing page leveraging a vintage Risograph print aesthetic with vibrant inks, grain textures, and misaligned layers.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
